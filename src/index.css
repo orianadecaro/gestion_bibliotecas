@@ -2,6 +2,7 @@
 
 body {
   overflow-x: hidden;
+  background-color: oklch(96.7% 0.003 264.542);
 }
 html {
   font-size: 14px;

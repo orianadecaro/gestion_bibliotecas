@@ -1,22 +1,22 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { MdLiveTv } from "react-icons/md";
-import { IoMdMenu } from "react-icons/io";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 
-const Navbar = ({ value, onChange, handleKeyPress }) => {
+const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const navigation = useNavigate();
   return (
     <nav className="bg-white p-1 lg:p-3 shadow top-0 fixed z-50 w-full ">
       <div className="mx-1  md:mx-3 flex  justify-between items-center">
-        <div className="text-white text-xl font-bold">
+        <div className="text-blue-600  font-bold">
           <Link to="/" className="flex gap-2 items-center">
             <img
-              src="/vite.svg"
-              className="object-contain w-8 "
+              src="/logo.jpeg"
+              className="object-contain  w-8 "
               alt="biblioteca Logo"
             />
+            <p> Jorge Luis Borges</p>
           </Link>
         </div>
 
@@ -54,7 +54,7 @@ const Navbar = ({ value, onChange, handleKeyPress }) => {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowModal(true)}
+                  onClick={() => navigation("/admin/dashboard")}
                   className="h-8 w-full bg-[#1cc702] cursor-pointer text-white py-1 items-center rounded-full hover:opacity-75 transition"
                 >
                   Ingresar

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import ModalContainer from "../components/modalContainer";
+import { MdOutlineWhatsapp } from "react-icons/md";
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -61,7 +62,8 @@ const HomePage = () => {
                   <td className="border p-2">{libro.editorial}</td>
                   <td className="border p-2">{libro.estado}</td>
                   <td className="border p-2">
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                    <button className="bg-blue-500 text-white flex  gap-2 items-center justify-center px-2 py-1 rounded hover:bg-blue-600">
+                      <MdOutlineWhatsapp />
                       Reservar
                     </button>
                   </td>
