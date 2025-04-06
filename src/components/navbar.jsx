@@ -15,7 +15,7 @@ const Navbar = ({ value, onChange, handleKeyPress }) => {
             <img
               src="/vite.svg"
               className="object-contain w-8 "
-              alt="NETMAX Logo"
+              alt="biblioteca Logo"
             />
           </Link>
         </div>
