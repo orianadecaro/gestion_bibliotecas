@@ -29,9 +29,9 @@ const UserList = () => {
           <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border p-2">Título</th>
-                <th className="border p-2">Autor</th>
-                <th className="border p-2">Editorial</th>
+                <th className="border p-2">Nombre</th>
+                <th className="border p-2">Email</th>
+                <th className="border p-2">Perfil</th>
                 <th className="border p-2">Estado</th>
                 <th className="border p-2">Acciones</th>
               </tr>

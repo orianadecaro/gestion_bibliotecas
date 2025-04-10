@@ -8,8 +8,8 @@ const LendingList = () => {
     {
       titulo: "Cien Años de Soledad",
       autor: "Gabriel García Márquez",
-      editorial: "Sudamericana",
-      estado: "Disponible",
+      editorial: "10/04/25",
+      estado: "Reservado",
     },
   ];
   return (
@@ -29,8 +29,8 @@ const LendingList = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-2">Título</th>
-              <th className="border p-2">Autor</th>
-              <th className="border p-2">Editorial</th>
+              <th className="border p-2">Socio</th>
+              <th className="border p-2">Fecha</th>
               <th className="border p-2">Estado</th>
               <th className="border p-2">Acciones</th>
             </tr>
