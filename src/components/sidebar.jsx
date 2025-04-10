@@ -37,7 +37,7 @@ const Sidebar = () => {
             <button
               key={item.id}
               onClick={() => navigation(item.path)}
-              className="flex py-2.5 px-2 w-52 text-[13px] rounded transition duration-200 hover:bg-[#1cc702] hover:text-white"
+              className="flex py-2.5 cursor-pointer  px-2 w-52 text-[13px] rounded transition duration-200 hover:bg-[#1cc702] hover:text-white"
             >
               <span className="mr-3 text-xl items-center">
                 {iconMap[item.icon]}
@@ -47,7 +47,7 @@ const Sidebar = () => {
           ))}
       </nav>{" "}
       <button
-        className="my-10 flex py-2.5 px-2 w-52 rounded transition duration-200 hover:bg-[#1cc702] hover:text-white"
+        className="my-10 flex py-2.5 px-2 w-52 rounded cursor-pointer  transition duration-200 hover:bg-[#1cc702] hover:text-white"
         onClick={() => navigation("/")}
       >
         <span className="mr-3 mt-1 text-xl items-center">
