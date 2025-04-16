@@ -89,9 +89,7 @@ const BookList = () => {
         {isModalOpen && (
           <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)]  flex items-center justify-center">
             <div className="bg-white rounded-lg p-6 w-full max-w-md">
-              <h2 className="text-lg font-semibold mb-4">
-                Agregar prestamo o devolucion
-              </h2>
+              <h2 className="text-lg font-semibold mb-4">Agregar Libro</h2>
               <form onSubmit={handleSubmit} className="space-y-3">
                 <div>
                   <label className="text-sm font-medium">Titulo</label>
