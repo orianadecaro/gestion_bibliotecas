@@ -113,6 +113,17 @@ const SocioList = () => {
                   required
                 />
               </div>
+              <div>
+                <label className="text-sm font-medium">Estado</label>
+                <input
+                  type="text"
+                  name="Fecha"
+                  value={newUser.Perfil}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
               <div className="flex justify-end gap-2 pt-4">
                 <button
                   type="button"

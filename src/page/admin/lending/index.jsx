@@ -15,8 +15,9 @@ const LendingList = () => {
     {
       titulo: "Cien Años de Soledad",
       autor: "Gabriel García Márquez",
-      editorial: "10/04/25",
+      fecha: "10/04/25",
       estado: "Reservado",
+      codigo: "123456789",
     },
   ];
   const handleInputChange = (e) => {
@@ -49,6 +50,7 @@ const LendingList = () => {
         <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
           <thead>
             <tr className="bg-gray-100">
+              <th className="border p-2">Código</th>
               <th className="border p-2">Título</th>
               <th className="border p-2">Socio</th>
               <th className="border p-2">Fecha</th>
@@ -59,9 +61,10 @@ const LendingList = () => {
           <tbody>
             {libro.map((libro, index) => (
               <tr key={index} className="text-center">
+                <td className="border p-2">{libro.codigo}</td>
                 <td className="border p-2">{libro.titulo}</td>
                 <td className="border p-2">{libro.autor}</td>
-                <td className="border p-2">{libro.editorial}</td>
+                <td className="border p-2">{libro.fecha}</td>
                 <td className="border p-2">{libro.estado}</td>
                 <td className="border p-2">
                   <ActionsTable
@@ -94,9 +97,20 @@ const LendingList = () => {
                 />
               </div>
               <div>
+                <label className="text-sm font-medium">Codigo</label>
+                <input
+                  type="text"
+                  name="Titulo"
+                  value={newUser.Nombre}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
                 <label className="text-sm font-medium">Socio</label>
                 <input
-                  type="email"
+                  type="text"
                   name="Socio"
                   value={newUser.Email}
                   onChange={handleInputChange}
@@ -108,6 +122,17 @@ const LendingList = () => {
                 <label className="text-sm font-medium">Fecha</label>
                 <input
                   type="datetime-local"
+                  name="Fecha"
+                  value={newUser.Perfil}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Estado</label>
+                <input
+                  type="text"
                   name="Fecha"
                   value={newUser.Perfil}
                   onChange={handleInputChange}

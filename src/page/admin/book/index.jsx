@@ -19,6 +19,7 @@ const BookList = () => {
       autor: "Gabriel García Márquez",
       editorial: "Sudamericana",
       estado: "Disponible",
+      codigo: "123456789",
     },
   ];
   const handleInputChange = (e) => {
@@ -60,9 +61,10 @@ const BookList = () => {
           <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
             <thead>
               <tr className="bg-gray-100">
+                <th className="border p-2">Código</th>
                 <th className="border p-2">Título</th>
                 <th className="border p-2">Autor</th>
-                <th className="border p-2">Editorial</th>
+                <th className="border p-2">Materia</th>
                 <th className="border p-2">Estado</th>
                 <th className="border p-2">Acciones</th>
               </tr>
@@ -70,6 +72,7 @@ const BookList = () => {
             <tbody>
               {libro.map((libro, index) => (
                 <tr key={index} className="text-center">
+                  <td className="border p-2">{libro.codigo}</td>
                   <td className="border p-2">{libro.titulo}</td>
                   <td className="border p-2">{libro.autor}</td>
                   <td className="border p-2">{libro.editorial}</td>
@@ -114,10 +117,32 @@ const BookList = () => {
                   />
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Editorial</label>
+                  <label className="text-sm font-medium">Código</label>
                   <input
                     type="text"
-                    name="Editorial"
+                    name="Codigo"
+                    value={newUser.Perfil}
+                    onChange={handleInputChange}
+                    className="w-full border p-2 rounded text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Materia</label>
+                  <input
+                    type="text"
+                    name="Codigo"
+                    value={newUser.Perfil}
+                    onChange={handleInputChange}
+                    className="w-full border p-2 rounded text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Estado</label>
+                  <input
+                    type="text"
+                    name="Codigo"
                     value={newUser.Perfil}
                     onChange={handleInputChange}
                     className="w-full border p-2 rounded text-sm"

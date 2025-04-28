@@ -41,7 +41,6 @@ const Dashboard = () => {
     <div className="h-full w-full px-3 py-2">
       <HeaderTable title="Dashboard" />
       <div className="bg-white flex items-center justify-center my-2 p-3 rounded h-[84vh] w-full">
-        {" "}
         <canvas id="myPieChart" width="400" height="400"></canvas>
       </div>
     </div>
