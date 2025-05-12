@@ -18,6 +18,7 @@ const UserList = () => {
       Email: "sandra@gmail.com",
       Perfil: "Bibliotecaria",
       estado: "Disponible",
+      telefono: "123456789",
     },
   ];
 
@@ -54,6 +55,7 @@ const UserList = () => {
             <thead>
               <tr className="bg-gray-100">
                 <th className="border p-2">Nombre</th>
+                <th className="border p-2">Telefono</th>
                 <th className="border p-2">Email</th>
                 <th className="border p-2">Perfil</th>
                 <th className="border p-2">Estado</th>
@@ -64,6 +66,7 @@ const UserList = () => {
               {user.map((libro, index) => (
                 <tr key={index} className="text-center">
                   <td className="border p-2">{libro.Nombre}</td>
+                  <td className="border p-2">{libro.telefono}</td>
                   <td className="border p-2">{libro.Email}</td>
                   <td className="border p-2">{libro.Perfil}</td>
                   <td className="border p-2">{libro.estado}</td>
@@ -91,6 +94,28 @@ const UserList = () => {
                   type="text"
                   name="Nombre"
                   value={newUser.Nombre}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Telefono</label>
+                <input
+                  type="email"
+                  name="Email"
+                  value={newUser.Email}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Contraseña</label>
+                <input
+                  type="email"
+                  name="Email"
+                  value={newUser.Email}
                   onChange={handleInputChange}
                   className="w-full border p-2 rounded text-sm"
                   required

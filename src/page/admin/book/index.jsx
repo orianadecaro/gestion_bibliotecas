@@ -20,6 +20,8 @@ const BookList = () => {
       editorial: "Sudamericana",
       estado: "Disponible",
       codigo: "123456789",
+      editorial: "Sudamericana",
+      cantidad: "1",
     },
   ];
   const handleInputChange = (e) => {
@@ -65,6 +67,8 @@ const BookList = () => {
                 <th className="border p-2">Título</th>
                 <th className="border p-2">Autor</th>
                 <th className="border p-2">Materia</th>
+                <th className="border p-2">Editorial</th>
+                <th className="border p-2">Cantidad</th>
                 <th className="border p-2">Estado</th>
                 <th className="border p-2">Acciones</th>
               </tr>
@@ -77,6 +81,8 @@ const BookList = () => {
                   <td className="border p-2">{libro.autor}</td>
                   <td className="border p-2">{libro.editorial}</td>
                   <td className="border p-2">{libro.estado}</td>
+                  <td className="border p-2">{libro.editorial}</td>
+                  <td className="border p-2">{libro.cantidad}</td>
                   <td className="border p-2">
                     <ActionsTable
                       handleDelete={() => ""}
@@ -129,6 +135,28 @@ const BookList = () => {
                 </div>
                 <div>
                   <label className="text-sm font-medium">Materia</label>
+                  <input
+                    type="text"
+                    name="Codigo"
+                    value={newUser.Perfil}
+                    onChange={handleInputChange}
+                    className="w-full border p-2 rounded text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Editorial</label>
+                  <input
+                    type="text"
+                    name="Codigo"
+                    value={newUser.Perfil}
+                    onChange={handleInputChange}
+                    className="w-full border p-2 rounded text-sm"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium">Cantidad</label>
                   <input
                     type="text"
                     name="Codigo"

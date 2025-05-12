@@ -15,7 +15,8 @@ const LendingList = () => {
     {
       titulo: "Cien Años de Soledad",
       autor: "Gabriel García Márquez",
-      fecha: "10/04/25",
+      fechaPrestamo: "10/04/25",
+      fechaDevolucion: "15/04/25",
       estado: "Reservado",
       codigo: "123456789",
     },
@@ -53,7 +54,8 @@ const LendingList = () => {
               <th className="border p-2">Código</th>
               <th className="border p-2">Título</th>
               <th className="border p-2">Socio</th>
-              <th className="border p-2">Fecha</th>
+              <th className="border p-2">Fecha Prestamo</th>
+              <th className="border p-2">Fecha Devolucion</th>
               <th className="border p-2">Estado</th>
               <th className="border p-2">Acciones</th>
             </tr>
@@ -64,7 +66,8 @@ const LendingList = () => {
                 <td className="border p-2">{libro.codigo}</td>
                 <td className="border p-2">{libro.titulo}</td>
                 <td className="border p-2">{libro.autor}</td>
-                <td className="border p-2">{libro.fecha}</td>
+                <td className="border p-2">{libro.fechaPrestamo}</td>
+                <td className="border p-2">{libro.fechaDevolucion}</td>{" "}
                 <td className="border p-2">{libro.estado}</td>
                 <td className="border p-2">
                   <ActionsTable
@@ -119,7 +122,18 @@ const LendingList = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Fecha</label>
+                <label className="text-sm font-medium">Fecha Prestamo</label>
+                <input
+                  type="datetime-local"
+                  name="Fecha"
+                  value={newUser.Perfil}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Fecha Devolucion</label>
                 <input
                   type="datetime-local"
                   name="Fecha"

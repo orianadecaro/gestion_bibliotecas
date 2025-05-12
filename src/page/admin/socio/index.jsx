@@ -14,6 +14,7 @@ const SocioList = () => {
   const socio = [
     {
       Nombre: "Oriana De Caro",
+      telefono: "123456789",
       Email: "ori@gmail.com",
       Perfil: "Alumno",
       estado: "Disponible",
@@ -50,6 +51,7 @@ const SocioList = () => {
           <thead>
             <tr className="bg-gray-100">
               <th className="border p-2">Nombre</th>
+              <th className="border p-2">Telefono</th>
               <th className="border p-2">Email</th>
               <th className="border p-2">Perfil</th>
               <th className="border p-2">Estado</th>
@@ -60,6 +62,7 @@ const SocioList = () => {
             {socio.map((libro, index) => (
               <tr key={index} className="text-center">
                 <td className="border p-2">{libro.Nombre}</td>
+                <td className="border p-2">{libro.telefono}</td>
                 <td className="border p-2">{libro.Email}</td>
                 <td className="border p-2">{libro.Perfil}</td>
                 <td className="border p-2">{libro.estado}</td>
@@ -82,6 +85,17 @@ const SocioList = () => {
             <form onSubmit={handleSubmit} className="space-y-3">
               <div>
                 <label className="text-sm font-medium">Nombre</label>
+                <input
+                  type="text"
+                  name="Nombre"
+                  value={newUser.Nombre}
+                  onChange={handleInputChange}
+                  className="w-full border p-2 rounded text-sm"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">Telefono</label>
                 <input
                   type="text"
                   name="Nombre"
