@@ -1,178 +1,143 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTable from "../../../components/table/headerTable";
 import { FaPlus } from "react-icons/fa";
 import ActionsTable from "../../../components/table/actionTable";
+import {
+  deleteUsuarios,
+  getAllUsuarios,
+} from "../../../service/usuariosService";
+import { UserForm } from "./userForm";
+import { UserDetail } from "./userDetail";
+import { searchUser } from "../../../utils/userUtils";
+import { getAllPerfiles } from "../../../service/perfilesService";
 
 const UserList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUser, setNewUser] = useState({
-    Nombre: "",
-    Email: "",
-    Perfil: "",
-    estado: "Disponible",
-  });
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [user, setUser] = useState([]);
+  const [perfiles, setPerfiles] = useState([]);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [filterText, setFilterText] = useState("");
+  const filteredUser = searchUser(user, filterText);
 
-  const user = [
-    {
-      Nombre: "Sandra Galeano",
-      Email: "sandra@gmail.com",
-      Perfil: "Bibliotecaria",
-      estado: "Disponible",
-      telefono: "123456789",
-    },
-  ];
+  const fetchUser = async () => {
+    const data = await getAllUsuarios();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({ ...prev, [name]: value }));
+    if (data) setUser(data);
+  };
+  const fetchPerfiles = async () => {
+    const data = await getAllPerfiles();
+    console.log(data);
+    if (data) setPerfiles(data);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUser([...user, newUser]);
-    setNewUser({ Nombre: "", Email: "", Perfil: "", estado: "Disponible" });
-    setIsModalOpen(false);
+  useEffect(() => {
+    fetchUser();
+    fetchPerfiles();
+  }, []);
+
+  const getPerfilNombre = (id) => {
+    const perfil = perfiles.find((p) => p.id === id);
+    return perfil ? perfil.nombre : id;
+  };
+
+  const handleDeleteUser = async (id) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este user?")) {
+      try {
+        await deleteUsuarios(id);
+        await fetchUser();
+      } catch (error) {
+        console.error("No se pudo eliminar el user:", error);
+      }
+    }
   };
 
   return (
     <div className="h-full w-full px-3 py-2">
       <HeaderTable
         title="Listado de usuarios"
-        setFilterTextValue={() => ""}
+        setFilterTextValue={(value) => setFilterText(value)}
         onClick={() => ""}
       >
         <button
-          className="rounded bg-gray-400 h-9 gap-2 cursor-pointer  w-auto items-center justify-center flex  text-center px-2 "
-          onClick={() => setIsModalOpen(true)}
+          className="rounded bg-gray-400 h-9 gap-2 cursor-pointer w-auto items-center justify-center flex  text-center px-2 "
+          onClick={() => {
+            setSelectedUser(null), setIsModalOpen(true);
+          }}
         >
           <FaPlus className="text-white text-lg " />
           agregar
         </button>
       </HeaderTable>
-      <div>
-        <div className="bg-white my-2 p-3 rounded h-[84vh] w-full">
-          <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">Nombre</th>
-                <th className="border p-2">Telefono</th>
-                <th className="border p-2">Email</th>
-                <th className="border p-2">Perfil</th>
-                <th className="border p-2">Estado</th>
-                <th className="border p-2">Acciones</th>
+      <div className="bg-white my-2 p-3 rounded h-[84vh] w-full">
+        <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border p-2">Nombre</th>
+              <th className="border p-2">Telefono</th>
+              <th className="border p-2">Email</th>
+              <th className="border p-2">Perfil</th>
+              <th className="border p-2">Estado</th>
+              <th className="border p-2">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredUser.map((user, index) => (
+              <tr key={index} className="text-center">
+                <td className="border p-2">{user.nombre}</td>
+                <td className="border p-2">{user.telefono}</td>
+                <td className="border p-2">{user.email}</td>
+                <td className="border p-2">
+                  {getPerfilNombre(user.perfil_id)}
+                </td>
+                <td className="border p-2">
+                  <span
+                    className={`font-semibold ${
+                      user.estado === true ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {user.estado === true ? "Habilitado" : "No habilitado"}
+                  </span>{" "}
+                </td>
+                <td className="border p-2">
+                  <ActionsTable
+                    handleDelete={() => handleDeleteUser(user.id)}
+                    handleEdit={() => {
+                      setSelectedUser(user);
+                      setIsModalOpen(true);
+                    }}
+                    handleView={() => {
+                      setSelectedUser(user);
+                      setIsDetailOpen(true);
+                    }}
+                  />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {user.map((libro, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border p-2">{libro.Nombre}</td>
-                  <td className="border p-2">{libro.telefono}</td>
-                  <td className="border p-2">{libro.Email}</td>
-                  <td className="border p-2">{libro.Perfil}</td>
-                  <td className="border p-2">{libro.estado}</td>
-                  <td className="border p-2">
-                    <ActionsTable
-                      handleDelete={() => ""}
-                      handleEdit={() => ""}
-                      handleView={() => ""}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>{" "}
-        </div>{" "}
-      </div>
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)]  flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">Agregar usuario</h2>
-            <form onSubmit={handleSubmit} className="space-y-3">
-              <div>
-                <label className="text-sm font-medium">Nombre</label>
-                <input
-                  type="text"
-                  name="Nombre"
-                  value={newUser.Nombre}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Telefono</label>
-                <input
-                  type="email"
-                  name="Email"
-                  value={newUser.Email}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Contraseña</label>
-                <input
-                  type="email"
-                  name="Email"
-                  value={newUser.Email}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Email</label>
-                <input
-                  type="email"
-                  name="Email"
-                  value={newUser.Email}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Perfil</label>
-                <input
-                  type="text"
-                  name="Perfil"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Estado</label>
-                <input
-                  type="text"
-                  name="Fecha"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-300 text-sm px-4 cursor-pointer  py-2 rounded"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white text-sm cursor-pointer  px-4 py-2 rounded"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+            ))}
+          </tbody>
+        </table>{" "}
+      </div>{" "}
+      <UserForm
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedUser(null);
+        }}
+        selectItem={selectedUser}
+        onUpdate={fetchUser}
+      />
+      <UserDetail
+        isOpen={isDetailOpen}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedUser(null);
+        }}
+        socio={{
+          ...selectedUser,
+          perfil_nombre: perfiles.find((p) => p.id === selectedUser?.perfil_id)
+            ?.nombre,
+        }}
+      />
     </div>
   );
 };
