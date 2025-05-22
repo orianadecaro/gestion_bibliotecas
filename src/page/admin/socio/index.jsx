@@ -1,46 +1,54 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import HeaderTable from "../../../components/table/headerTable";
 import ActionsTable from "../../../components/table/actionTable";
+import { SocioForm } from "./socioForm";
+import { SocioDetail } from "./socioDetail";
+import { deleteSocios, getAllSocios } from "../../../service/sociosService";
+import { searchSocios } from "../../../utils/sociosUtils";
 
 const SocioList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUser, setNewUser] = useState({
-    Nombre: "",
-    Email: "",
-    Perfil: "",
-    estado: "Disponible",
-  });
-  const socio = [
-    {
-      Nombre: "Oriana De Caro",
-      telefono: "123456789",
-      Email: "ori@gmail.com",
-      Perfil: "Alumno",
-      estado: "Disponible",
-    },
-  ];
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({ ...prev, [name]: value }));
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [socios, setSocios] = useState([]);
+  const [selectedSocios, setSelectedSocios] = useState(null);
+  const [filterText, setFilterText] = useState("");
+  const filteredSocios = searchSocios(socios, filterText);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const fetchSocios = async () => {
+    const data = await getAllSocios();
+    console.log(data);
+    if (data) setSocios(data);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUser([...user, newUser]);
-    setNewUser({ Nombre: "", Email: "", Perfil: "", estado: "Disponible" });
-    setIsModalOpen(false);
+  useEffect(() => {
+    fetchSocios();
+  }, []);
+
+  const handleDeleteSocios = async (id) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este socios?")) {
+      try {
+        await deleteSocios(id);
+        await fetchSocios();
+      } catch (error) {
+        console.error("No se pudo eliminar el socios:", error);
+      }
+    }
   };
+
   return (
     <div className="h-full w-full px-3 py-2">
       <HeaderTable
         title="Listado de socios"
-        setFilterTextValue={() => ""}
+        setFilterTextValue={(value) => setFilterText(value)}
         onClick={() => ""}
       >
         <button
           className="rounded bg-gray-400 h-9 gap-2 cursor-pointer w-auto items-center justify-center flex  text-center px-2 "
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setSelectedSocios(null), setIsModalOpen(true);
+          }}
         >
           <FaPlus className="text-white text-lg " />
           agregar
@@ -59,18 +67,34 @@ const SocioList = () => {
             </tr>
           </thead>
           <tbody>
-            {socio.map((libro, index) => (
+            {filteredSocios.map((socios, index) => (
               <tr key={index} className="text-center">
-                <td className="border p-2">{libro.Nombre}</td>
-                <td className="border p-2">{libro.telefono}</td>
-                <td className="border p-2">{libro.Email}</td>
-                <td className="border p-2">{libro.Perfil}</td>
-                <td className="border p-2">{libro.estado}</td>
+                <td className="border p-2">{socios.nombre}</td>
+                <td className="border p-2">{socios.telefono}</td>
+                <td className="border p-2">{socios.email}</td>
+                <td className="border p-2">{socios.perfil_id}</td>
+                <td className="border p-2">
+                  <span
+                    className={`font-semibold ${
+                      socios.estado === "Disponible"
+                        ? "text-green-600"
+                        : "text-red-600"
+                    }`}
+                  >
+                    {socios.estado}
+                  </span>{" "}
+                </td>
                 <td className="border p-2">
                   <ActionsTable
-                    handleDelete={() => ""}
-                    handleEdit={() => ""}
-                    handleView={() => ""}
+                    handleDelete={() => handleDeleteSocios(socios.id)}
+                    handleEdit={() => {
+                      setSelectedSocios(socios);
+                      setIsModalOpen(true);
+                    }}
+                    handleView={() => {
+                      setSelectedSocios(socios);
+                      setIsDetailOpen(true);
+                    }}
                   />
                 </td>
               </tr>
@@ -78,85 +102,23 @@ const SocioList = () => {
           </tbody>
         </table>{" "}
       </div>{" "}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)]  flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">Agregar socio</h2>
-            <form onSubmit={handleSubmit} className="space-y-3">
-              <div>
-                <label className="text-sm font-medium">Nombre</label>
-                <input
-                  type="text"
-                  name="Nombre"
-                  value={newUser.Nombre}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Telefono</label>
-                <input
-                  type="text"
-                  name="Nombre"
-                  value={newUser.Nombre}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Email</label>
-                <input
-                  type="email"
-                  name="Email"
-                  value={newUser.Email}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Perfil</label>
-                <input
-                  type="text"
-                  name="Perfil"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Estado</label>
-                <input
-                  type="text"
-                  name="Fecha"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-300 text-sm px-4 py-2 cursor-pointer  rounded"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white text-sm px-4 py-2 cursor-pointer  rounded"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <SocioForm
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedSocios(null);
+        }}
+        selectItem={selectedSocios}
+        onUpdate={fetchSocios}
+      />
+      <SocioDetail
+        isOpen={isDetailOpen}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedSocios(null);
+        }}
+        socios={selectedSocios}
+      />
     </div>
   );
 };

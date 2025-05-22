@@ -1,4 +1,4 @@
-import axiosInstance from "@/pages/api/axios";
+import axiosInstance from "../api/axios.js";
 
 export const getAllSocios = async () => {
   try {
@@ -20,7 +20,7 @@ export const getSociosById = async (id) => {
 
 export const createSocios = async (data) => {
   try {
-    const response = await axiosInstance.post("/ibros", data);
+    const response = await axiosInstance.post("/socios", data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el socios", error);
@@ -29,7 +29,7 @@ export const createSocios = async (data) => {
 
 export const updateSocios = async (data) => {
   try {
-    const response = await axiosInstance.put(`/socios/${data.Id}`, data);
+    const response = await axiosInstance.put(`/socios/${data.id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el socios:", error);

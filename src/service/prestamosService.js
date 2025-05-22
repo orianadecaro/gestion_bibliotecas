@@ -1,4 +1,4 @@
-import axiosInstance from "@/pages/api/axios";
+import axiosInstance from "../api/axios.js";
 
 export const getAllPrestamos = async () => {
   try {
@@ -29,7 +29,7 @@ export const createPrestamos = async (data) => {
 
 export const updatePrestamos = async (data) => {
   try {
-    const response = await axiosInstance.put(`/prestamos/${data.Id}`, data);
+    const response = await axiosInstance.put(`/prestamos/${data.id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el prestamos:", error);

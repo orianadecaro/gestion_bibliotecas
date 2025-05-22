@@ -29,4 +29,10 @@ export const sidebarData = [
     path: "/admin/user",
     icon: "FaRegUser",
   },
+  {
+    id: 6,
+    title: "Perfiles",
+    path: "/admin/profile",
+    icon: "ImProfile",
+  },
 ];

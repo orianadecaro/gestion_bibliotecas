@@ -35,7 +35,7 @@ const LendingList = () => {
   return (
     <div className="h-full w-full px-3 py-2">
       <HeaderTable
-        title="Listado de prestamos & devoluciones"
+        title="Listado de préstamos & devoluciones"
         setFilterTextValue={() => ""}
         onClick={() => ""}
       >

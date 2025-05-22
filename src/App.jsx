@@ -8,6 +8,7 @@ import UserList from "./page/admin/user";
 import BookList from "./page/admin/book";
 import LendingList from "./page/admin/lending";
 import SocioList from "./page/admin/socio";
+import ProfileList from "./page/admin/profile";
 
 function App() {
   return (
@@ -58,6 +59,14 @@ function App() {
           element={
             <LayoutAdmin>
               <SocioList />{" "}
+            </LayoutAdmin>
+          }
+        />
+        <Route
+          path="/admin/profile"
+          element={
+            <LayoutAdmin>
+              <ProfileList />{" "}
             </LayoutAdmin>
           }
         />

@@ -1,4 +1,4 @@
-import axiosInstance from "@/pages/api/axios";
+import axiosInstance from "../api/axios.js";
 
 export const getAllPerfiles = async () => {
   try {
@@ -29,7 +29,7 @@ export const createPerfiles = async (data) => {
 
 export const updatePerfiles = async (data) => {
   try {
-    const response = await axiosInstance.put(`/perfiles/${data.Id}`, data);
+    const response = await axiosInstance.put(`/perfiles/${data.id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el perfiles:", error);

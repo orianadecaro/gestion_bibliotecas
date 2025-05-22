@@ -1,4 +1,4 @@
-import axiosInstance from "@/pages/api/axios";
+import axiosInstance from "../api/axios.js";
 
 export const getAllUsuarios = async () => {
   try {
@@ -20,7 +20,7 @@ export const getUsuariosById = async (id) => {
 
 export const createUsuarios = async (data) => {
   try {
-    const response = await axiosInstance.post("/ibros", data);
+    const response = await axiosInstance.post("/usuarios", data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el usuarios", error);
@@ -29,7 +29,7 @@ export const createUsuarios = async (data) => {
 
 export const updateUsuarios = async (data) => {
   try {
-    const response = await axiosInstance.put(`/usuarios/${data.Id}`, data);
+    const response = await axiosInstance.put(`/usuarios/${data.id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el usuarios:", error);

@@ -6,6 +6,7 @@ import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import { LuBookText } from "react-icons/lu";
+import { ImProfile } from "react-icons/im";
 
 const Sidebar = () => {
   const navigation = useNavigate();
@@ -15,6 +16,7 @@ const Sidebar = () => {
     FaPeopleLine: <FiUsers />,
     GiBookshelf: <LuBookText />,
     BsFillJournalBookmarkFill: <BsFillJournalBookmarkFill />,
+    ImProfile: <ImProfile />,
   };
   const user = JSON.parse(localStorage.getItem("user"));
   const logout = (navigate) => {
