@@ -1,60 +1,94 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTable from "../../../components/table/headerTable";
 import { GrDownload } from "react-icons/gr";
 import { LuUpload } from "react-icons/lu";
 import ActionsTable from "../../../components/table/actionTable";
 import { FaPlus } from "react-icons/fa";
+import {
+  createLibros,
+  deleteLibros,
+  getAllLibros,
+} from "../../../service/librosService";
+import { BookForm } from "./bookForm";
+import { BookDetail } from "./bookDetail";
+import {
+  exportLibrosToExcel,
+  importLibrosFromCSV,
+  searchLibros,
+} from "../../../utils/bookUtils";
 
 const BookList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUser, setNewUser] = useState({
-    Nombre: "",
-    Email: "",
-    Perfil: "",
-    estado: "Disponible",
-  });
-  const libro = [
-    {
-      titulo: "Cien Años de Soledad",
-      autor: "Gabriel García Márquez",
-      editorial: "Sudamericana",
-      estado: "Disponible",
-      codigo: "123456789",
-      editorial: "Sudamericana",
-      cantidad: "1",
-    },
-  ];
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({ ...prev, [name]: value }));
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [libros, setLibros] = useState([]);
+  const [selectedLibro, setSelectedLibro] = useState(null);
+  const [filterText, setFilterText] = useState("");
+  const filteredLibros = searchLibros(libros, filterText);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
+
+  const fetchLibros = async () => {
+    const data = await getAllLibros();
+    if (data) setLibros(data);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUser([...user, newUser]);
-    setNewUser({ Nombre: "", Email: "", Perfil: "", estado: "Disponible" });
-    setIsModalOpen(false);
+  useEffect(() => {
+    fetchLibros();
+  }, []);
+
+  const handleDeleteLibro = async (id) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este libro?")) {
+      try {
+        await deleteLibros(id);
+        await fetchLibros();
+      } catch (error) {
+        console.error("No se pudo eliminar el libro:", error);
+      }
+    }
+  };
+
+  const handleImport = async (e) => {
+    try {
+      const importedLibros = await importLibrosFromCSV(e);
+
+      for (const libro of importedLibros) {
+        await createLibros(libro);
+      }
+      await fetchLibros();
+
+      setIsImportModalOpen(false);
+    } catch (error) {
+      console.error("Error al importar libros:", error);
+    }
   };
   return (
     <>
       <div className="h-full w-full px-3 py-2">
         <HeaderTable
-          title="Listado de compendio bibliografico"
-          setFilterTextValue={() => ""}
+          title="Listado de compendio bibliográfico"
+          setFilterTextValue={(value) => setFilterText(value)}
           onClick={() => ""}
         >
           <button
             className="rounded bg-gray-400 h-9 cursor-pointer gap-2  w-auto items-center justify-center flex  text-center px-2 "
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => {
+              setSelectedLibro(null);
+              setIsModalOpen(true);
+            }}
           >
             <FaPlus className="text-white text-lg " />
             agregar
           </button>
-          <button className="rounded bg-blue-500 h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 ">
+          <button
+            onClick={() => exportLibrosToExcel(libros)}
+            className="rounded bg-blue-500 h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 "
+          >
             <GrDownload className="text-white text-lg " />
             exportar
           </button>
-          <button className="rounded bg-[#1cc702] h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 ">
+          <button
+            onClick={() => setIsImportModalOpen(true)}
+            className="rounded bg-[#1cc702] h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 "
+          >
             <LuUpload className="text-white text-lg " />
             importar
           </button>
@@ -74,20 +108,37 @@ const BookList = () => {
               </tr>
             </thead>
             <tbody>
-              {libro.map((libro, index) => (
+              {filteredLibros.map((libro, index) => (
                 <tr key={index} className="text-center">
                   <td className="border p-2">{libro.codigo}</td>
                   <td className="border p-2">{libro.titulo}</td>
                   <td className="border p-2">{libro.autor}</td>
-                  <td className="border p-2">{libro.editorial}</td>
-                  <td className="border p-2">{libro.estado}</td>
+                  <td className="border p-2">{libro.materia}</td>
                   <td className="border p-2">{libro.editorial}</td>
                   <td className="border p-2">{libro.cantidad}</td>
                   <td className="border p-2">
+                    <span
+                      className={`font-semibold ${
+                        libro.estado === "Disponible"
+                          ? "text-green-600"
+                          : "text-red-600"
+                      }`}
+                    >
+                      {libro.estado}
+                    </span>
+                  </td>
+
+                  <td className="border p-2">
                     <ActionsTable
-                      handleDelete={() => ""}
-                      handleEdit={() => ""}
-                      handleView={() => ""}
+                      handleDelete={() => handleDeleteLibro(libro.id)}
+                      handleEdit={() => {
+                        setSelectedLibro(libro);
+                        setIsModalOpen(true);
+                      }}
+                      handleView={() => {
+                        setSelectedLibro(libro);
+                        setIsDetailOpen(true);
+                      }}
                     />
                   </td>
                 </tr>
@@ -95,104 +146,41 @@ const BookList = () => {
             </tbody>
           </table>{" "}
         </div>{" "}
-        {isModalOpen && (
-          <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)]  flex items-center justify-center">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
-              <h2 className="text-lg font-semibold mb-4">Agregar Libro</h2>
-              <form onSubmit={handleSubmit} className="space-y-3">
-                <div>
-                  <label className="text-sm font-medium">Titulo</label>
-                  <input
-                    type="text"
-                    name="Titulo"
-                    value={newUser.Nombre}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Autor</label>
-                  <input
-                    type="email"
-                    name="Autor"
-                    value={newUser.Email}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Código</label>
-                  <input
-                    type="text"
-                    name="Codigo"
-                    value={newUser.Perfil}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Materia</label>
-                  <input
-                    type="text"
-                    name="Codigo"
-                    value={newUser.Perfil}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Editorial</label>
-                  <input
-                    type="text"
-                    name="Codigo"
-                    value={newUser.Perfil}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Cantidad</label>
-                  <input
-                    type="text"
-                    name="Codigo"
-                    value={newUser.Perfil}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">Estado</label>
-                  <input
-                    type="text"
-                    name="Codigo"
-                    value={newUser.Perfil}
-                    onChange={handleInputChange}
-                    className="w-full border p-2 rounded text-sm"
-                    required
-                  />
-                </div>
-                <div className="flex justify-end gap-2 pt-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="bg-gray-300 text-sm cursor-pointer  px-4 py-2 rounded"
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-blue-600 text-white cursor-pointer  text-sm px-4 py-2 rounded"
-                  >
-                    Guardar
-                  </button>
-                </div>
-              </form>
+        <BookForm
+          isOpen={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedLibro(null);
+          }}
+          selectItem={selectedLibro}
+          onUpdate={fetchLibros}
+        />
+        <BookDetail
+          isOpen={isDetailOpen}
+          onClose={() => {
+            setIsDetailOpen(false);
+            setSelectedLibro(null);
+          }}
+          libro={selectedLibro}
+        />
+        {isImportModalOpen && (
+          <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
+            <div className="bg-white p-6 rounded shadow-md w-96">
+              <h2 className="text-lg font-semibold mb-4">Importar Libros</h2>
+              <input
+                type="file"
+                accept=".csv"
+                onChange={handleImport}
+                className="mb-4 border p-2 rounded text-sm bg-gray-300"
+              />
+              <div className="flex justify-end gap-2">
+                <button
+                  onClick={() => setIsImportModalOpen(false)}
+                  className="bg-red-500 text-white px-3 py-1 rounded"
+                >
+                  Cancelar
+                </button>
+              </div>
             </div>
           </div>
         )}

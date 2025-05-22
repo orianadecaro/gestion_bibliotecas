@@ -1,4 +1,4 @@
-import axiosInstance from "@/pages/api/axios";
+import axiosInstance from "../api/axios.js";
 
 export const getAllLibros = async () => {
   try {
@@ -20,7 +20,7 @@ export const getLibrosById = async (id) => {
 
 export const createLibros = async (data) => {
   try {
-    const response = await axiosInstance.post("/ibros", data);
+    const response = await axiosInstance.post("/libros", data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el libros", error);
@@ -29,7 +29,7 @@ export const createLibros = async (data) => {
 
 export const updateLibros = async (data) => {
   try {
-    const response = await axiosInstance.put(`/libros/${data.Id}`, data);
+    const response = await axiosInstance.put(`/libros/${data.id}`, data);
     return response.data;
   } catch (error) {
     console.error("Error al obtener el libros:", error);
