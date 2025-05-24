@@ -1,37 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTable from "../../../components/table/headerTable";
 import { FaPlus } from "react-icons/fa";
 import ActionsTable from "../../../components/table/actionTable";
+import { getAllSocios } from "../../../service/sociosService";
+import {
+  deletePrestamos,
+  getAllPrestamos,
+} from "../../../service/prestamosService";
+import { getAllLibros } from "../../../service/librosService";
+import { LendingForm } from "./lendingForm";
+import { LendingDetail } from "./lendingDetail";
 
 const LendingList = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newUser, setNewUser] = useState({
-    Nombre: "",
-    Email: "",
-    Perfil: "",
-    estado: "Disponible",
-  });
-  const libro = [
-    {
-      titulo: "Cien Años de Soledad",
-      autor: "Gabriel García Márquez",
-      fechaPrestamo: "10/04/25",
-      fechaDevolucion: "15/04/25",
-      estado: "Reservado",
-      codigo: "123456789",
-    },
-  ];
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setNewUser((prev) => ({ ...prev, [name]: value }));
+  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [prestamos, setPrestamos] = useState([]);
+  const [selectedPrestamo, setSelectedPrestamo] = useState(null);
+  const [libros, setLibros] = useState([]);
+  const [socios, setSocios] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [prestamosData, librosData, sociosData] = await Promise.all([
+          getAllPrestamos(),
+          getAllLibros(),
+          getAllSocios(),
+        ]);
+
+        if (prestamosData) setPrestamos(prestamosData);
+        if (librosData) setLibros(librosData);
+        if (sociosData) setSocios(sociosData);
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleDeleteLibro = async (id) => {
+    if (confirm("¿Estás seguro de que deseas eliminar este libro?")) {
+      try {
+        await deletePrestamos(id);
+        await fetchData();
+      } catch (error) {
+        console.error("No se pudo eliminar el libro:", error);
+      }
+    }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUser([...user, newUser]);
-    setNewUser({ Nombre: "", Email: "", Perfil: "", estado: "Disponible" });
-    setIsModalOpen(false);
-  };
   return (
     <div className="h-full w-full px-3 py-2">
       <HeaderTable
@@ -54,125 +72,63 @@ const LendingList = () => {
               <th className="border p-2">Código</th>
               <th className="border p-2">Título</th>
               <th className="border p-2">Socio</th>
-              <th className="border p-2">Fecha Prestamo</th>
-              <th className="border p-2">Fecha Devolucion</th>
+              <th className="border p-2">Fecha Préstamo</th>
+              <th className="border p-2">Fecha Devolución</th>
               <th className="border p-2">Estado</th>
               <th className="border p-2">Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {libro.map((libro, index) => (
-              <tr key={index} className="text-center">
-                <td className="border p-2">{libro.codigo}</td>
-                <td className="border p-2">{libro.titulo}</td>
-                <td className="border p-2">{libro.autor}</td>
-                <td className="border p-2">{libro.fechaPrestamo}</td>
-                <td className="border p-2">{libro.fechaDevolucion}</td>{" "}
-                <td className="border p-2">{libro.estado}</td>
-                <td className="border p-2">
-                  <ActionsTable
-                    handleDelete={() => ""}
-                    handleEdit={() => ""}
-                    handleView={() => ""}
-                  />
-                </td>
-              </tr>
-            ))}
+            {prestamos.map((prestamo) => {
+              const libro = libros.find((l) => l.id === prestamo.libro_id);
+              const socio = socios.find((s) => s.id === prestamo.socio_id);
+
+              return (
+                <tr key={prestamo.id} className="text-center">
+                  <td className="border p-2">{libro.codigo}</td>
+                  <td className="border p-2">{libro.titulo}</td>
+                  <td className="border p-2">
+                    {socio ? socio.nombre : "Socio no encontrado"}
+                  </td>
+                  <td className="border p-2">{prestamo.fechaprestamo}</td>
+                  <td className="border p-2">{prestamo.fechadevolucion}</td>
+                  <td className="border p-2">{prestamo.estado}</td>
+                  <td className="border p-2">
+                    <ActionsTable
+                      handleDelete={() => handleDeleteLibro(prestamo.id)}
+                      handleEdit={() => {
+                        setSelectedPrestamo(prestamo);
+                        setIsModalOpen(true);
+                      }}
+                      handleView={() => {
+                        setSelectedPrestamo(prestamo);
+                        setIsDetailOpen(true);
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>{" "}
       </div>{" "}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)]  flex items-center justify-center">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md">
-            <h2 className="text-lg font-semibold mb-4">
-              Agregar prestamo o devolucion
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-3">
-              <div>
-                <label className="text-sm font-medium">Titulo</label>
-                <input
-                  type="text"
-                  name="Titulo"
-                  value={newUser.Nombre}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Codigo</label>
-                <input
-                  type="text"
-                  name="Titulo"
-                  value={newUser.Nombre}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Socio</label>
-                <input
-                  type="text"
-                  name="Socio"
-                  value={newUser.Email}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Fecha Prestamo</label>
-                <input
-                  type="datetime-local"
-                  name="Fecha"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Fecha Devolucion</label>
-                <input
-                  type="datetime-local"
-                  name="Fecha"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm font-medium">Estado</label>
-                <input
-                  type="text"
-                  name="Fecha"
-                  value={newUser.Perfil}
-                  onChange={handleInputChange}
-                  className="w-full border p-2 rounded text-sm"
-                  required
-                />
-              </div>
-              <div className="flex justify-end gap-2 pt-4">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="bg-gray-300 text-sm px-4 cursor-pointer  py-2 rounded"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-blue-600 text-white cursor-pointer  text-sm px-4 py-2 rounded"
-                >
-                  Guardar
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <LendingForm
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedPrestamo(null);
+        }}
+        selectItem={selectedPrestamo}
+        onUpdate={prestamos}
+      />
+      <LendingDetail
+        isOpen={isDetailOpen}
+        onClose={() => {
+          setIsDetailOpen(false);
+          setSelectedPrestamo(null);
+        }}
+        prestamo={selectedPrestamo}
+      />
     </div>
   );
 };

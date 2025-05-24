@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="lg:flex bg-gray-400 w-1/5 hidden flex-col h-screen border-r shadow px-3 border-gray-200">
+    <div className="lg:flex bg-gray-400 w-1/5 hidden flex-col h-full border-r shadow px-3 border-gray-200">
       <div className="flex justify-between items-center my-5">
         <div>
           <img
@@ -60,7 +60,7 @@ const Sidebar = () => {
           ))}
       </nav>{" "}
       <button
-        className="my-10 flex py-2.5 px-2 w-52 rounded cursor-pointer  transition duration-200 hover:bg-[#1cc702] hover:text-white"
+        className="my-5 flex py-2.5 px-2 w-52 rounded cursor-pointer  transition duration-200 hover:bg-[#1cc702] hover:text-white"
         onClick={logout}
       >
         <span className="mr-3 mt-1 text-xl items-center">

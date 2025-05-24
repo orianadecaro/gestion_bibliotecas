@@ -15,7 +15,6 @@ const Navbar = () => {
     e.preventDefault();
     try {
       const result = await login({ email, password });
-      alert("Login exitoso");
 
       localStorage.setItem("user", JSON.stringify(result.user));
       localStorage.setItem("token", result.token);
