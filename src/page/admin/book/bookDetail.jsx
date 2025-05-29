@@ -9,13 +9,13 @@ export const BookDetail = ({ isOpen, onClose, libro }) => {
         <h2 className="text-lg font-semibold mb-4">Detalle del Libro</h2>
         <ul className="space-y-2 text-sm">
           <li>
+            <strong>Código:</strong> {libro.codigo}
+          </li>
+          <li>
             <strong>Título:</strong> {libro.titulo}
           </li>
           <li>
             <strong>Autor:</strong> {libro.autor}
-          </li>
-          <li>
-            <strong>Código:</strong> {libro.codigo}
           </li>
           <li>
             <strong>Materia:</strong> {libro.materia}
@@ -29,10 +29,8 @@ export const BookDetail = ({ isOpen, onClose, libro }) => {
           <li>
             <strong>Estado:</strong>{" "}
             <span
-              className={`font-semibold ${
-                libro.estado === "Disponible"
-                  ? "text-green-600"
-                  : "text-red-600"
+              className={`px-2 py-1 rounded-full font-semibold text-white text-xs md:text-sm ${
+                libro.estado === "Disponible" ? "bg-green-600" : "bg-red-600"
               }`}
             >
               {libro.estado}

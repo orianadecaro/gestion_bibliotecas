@@ -1,27 +1,26 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
-import { FaUserCircle } from "react-icons/fa";
-import { login } from "../auth";
+import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
+import { login } from "../../auth";
 
 const Navbar = () => {
+  const navigation = useNavigate();
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const navigation = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const result = await login({ email, password });
-
       localStorage.setItem("user", JSON.stringify(result.user));
       localStorage.setItem("token", result.token);
       navigation("/admin/dashboard");
-      console.log(result.user);
     } catch (err) {
-      alert("Login fallido: " + (err.response?.data?.error || err.message));
+      setError(err.response?.data?.error || "Credenciales inválidas");
     }
   };
 
@@ -58,7 +57,7 @@ const Navbar = () => {
             </button>
           )}
           {open && (
-            <div className="flex flex-col p-2 w-auto rounded-xl bg-white absolute top-14 shadow right-2 z-30">
+            <div className="flex flex-col p-2 w-auto rounded-xl bg-white absolute top-10 lg:top-14 shadow right-2 z-30">
               <form
                 className="flex w-full flex-col items-center gap-2 py-2"
                 onSubmit={handleSubmit}
@@ -72,14 +71,27 @@ const Navbar = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <input
-                  type="password"
-                  placeholder="Password"
-                  className="flex-grow h-8 bg-white rounded-xl border border-gray-800 text-gray-800 px-4"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
+                <div className="relative w-full">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    className="h-8 w-full bg-white rounded-xl border border-gray-800 text-gray-800 px-4 "
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setError(null);
+                    }}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
+
                 {error && (
                   <p className="text-red-600 text-sm font-semibold">{error}</p>
                 )}

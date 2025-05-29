@@ -22,7 +22,7 @@ const ModalContainer = ({ open, setOpen, title, children }) => {
 
       {/* Contenedor del modal */}
       <div
-        className="relative z-10 w-1/2 mx-4 bg-white rounded-lg shadow-xl py-2 px-4"
+        className="relative z-10 w-full md:w-1/2 mx-4 bg-white rounded-lg shadow-xl py-2 px-4"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}

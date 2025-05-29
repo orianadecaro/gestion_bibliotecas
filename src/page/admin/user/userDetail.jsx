@@ -1,5 +1,5 @@
-export const UserDetail = ({ isOpen, onClose, socio }) => {
-  if (!isOpen || !socio) return null;
+export const UserDetail = ({ isOpen, onClose, user }) => {
+  if (!isOpen || !user) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
@@ -7,26 +7,26 @@ export const UserDetail = ({ isOpen, onClose, socio }) => {
         <h2 className="text-lg font-semibold mb-4">Detalle del Usuario</h2>
         <ul className="space-y-2 text-sm">
           <li>
-            <strong>Nombre y Apellido:</strong> {socio.nombre}
+            <strong>Nombre y Apellido:</strong> {user.nombre}
           </li>
           <li>
-            <strong>Teléfono:</strong> {socio.telefono}
+            <strong>Teléfono:</strong> {user.telefono}
           </li>
           <li>
-            <strong>Email:</strong> {socio.email}
+            <strong>Email:</strong> {user.email}
           </li>
           <li>
-            <strong>Perfil:</strong> {socio.perfil_nombre}
+            <strong>Perfil:</strong> {user.perfil_nombre.toUpperCase()}
           </li>
 
           <li>
             <strong>Estado:</strong>{" "}
             <span
-              className={`font-semibold ${
-                socio.estado === true ? "text-green-600" : "text-red-600"
+              className={`font-semibold py-1 px-2 text-white rounded-full ${
+                user.estado === true ? "bg-green-600" : "bg-red-600"
               }`}
             >
-              {socio.estado === true ? "Habilitado" : "No habilitado"}
+              {user.estado === true ? "Habilitado" : "No habilitado"}
             </span>
           </li>
         </ul>

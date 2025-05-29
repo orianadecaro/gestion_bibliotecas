@@ -69,7 +69,7 @@ const ProfileList = () => {
     <div className="h-full w-full px-3 py-2">
       <HeaderTable title="Listado de perfiles"></HeaderTable>
 
-      <div className="bg-white my-2 p-3 grid grid-cols-2 gap-3 rounded h-[84vh] w-full">
+      <div className="bg-white my-2 p-3 grid grid-cols-1 md:grid-cols-2 gap-4 rounded h-[84vh] w-full">
         <table className="w-full h-fit table-auto rounded border text-[12px] border-gray-100">
           <thead>
             <tr className="bg-gray-100">
@@ -93,15 +93,15 @@ const ProfileList = () => {
           </tbody>
         </table>
 
-        <div className="bg-white border border-gray-600 h-52 shadow rounded-lg p-4 w-full">
-          <h2 className="text-lg font-semibold mb-4">
+        <div className="bg-white border border-gray-600 h-40 shadow rounded-lg p-3  w-full">
+          <h2 className="text-lg font-semibold mb-1">
             {viewingProfile
               ? "Detalle Perfil"
               : editingProfile
               ? "Editar Perfil"
               : "Agregar nuevo Perfil"}
           </h2>
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form onSubmit={handleSubmit} className="my-1">
             <div>
               <label className="text-sm font-medium">Nombre</label>
               <input
@@ -115,7 +115,7 @@ const ProfileList = () => {
               />
             </div>
 
-            <div className="flex justify-end gap-2 pt-4">
+            <div className="flex justify-end gap-2 pt-3">
               <button
                 type="button"
                 onClick={handleCancel}

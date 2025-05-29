@@ -1,14 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./page";
-import LayoutMain from "./components/layoutMain";
 import Dashboard from "./page/admin/dashboard";
-import LayoutAdmin from "./components/layoutAdmin";
 import UserList from "./page/admin/user";
 import BookList from "./page/admin/book";
 import LendingList from "./page/admin/lending";
 import SocioList from "./page/admin/socio";
 import ProfileList from "./page/admin/profile";
+import LayoutMain from "./components/layout/layoutMain";
+import LayoutAdmin from "./components/layout/layoutAdmin";
 
 function App() {
   return (

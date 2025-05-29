@@ -69,83 +69,89 @@ const BookList = () => {
           onClick={() => ""}
         >
           <button
-            className="rounded bg-gray-400 h-9 cursor-pointer gap-2  w-auto items-center justify-center flex  text-center px-2 "
+            className="rounded bg-gray-400 h-6 md:h-9 cursor-pointer gap-2  w-auto items-center justify-center flex  text-center px-2 "
             onClick={() => {
               setSelectedLibro(null);
               setIsModalOpen(true);
             }}
           >
-            <FaPlus className="text-white text-lg " />
-            agregar
+            <FaPlus className="text-white text-base md:text-lg" />
+            <span className="hidden md:flex text-white text-lg">agregar</span>
           </button>
           <button
             onClick={() => exportLibrosToExcel(libros)}
-            className="rounded bg-blue-500 h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 "
+            className="rounded bg-blue-500 h-6 md:h-9  gap-2 cursor-pointer text-base md:text-lg  w-auto items-center justify-center flex  text-center px-2 "
           >
-            <GrDownload className="text-white text-lg " />
-            exportar
+            <GrDownload className="text-white text-base md:text-lg" />
+            <span className="hidden md:flex text-white text-lg">
+              exportar
+            </span>{" "}
           </button>
           <button
             onClick={() => setIsImportModalOpen(true)}
-            className="rounded bg-[#1cc702] h-9 gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 "
+            className="rounded bg-[#1cc702] h-6 md:h-9  gap-2 cursor-pointer   w-auto items-center justify-center flex  text-center px-2 "
           >
-            <LuUpload className="text-white text-lg " />
-            importar
+            <LuUpload className="text-white text-base md:text-lg " />
+            <span className="hidden md:flex text-white text-lg">importar</span>
           </button>
         </HeaderTable>
         <div className="bg-white my-2 p-3 rounded h-[84vh] w-full">
-          <table className="w-full  table-auto rounded border text-[12px] border-gray-100">
-            <thead>
-              <tr className="bg-gray-100">
-                <th className="border p-2">Código</th>
-                <th className="border p-2">Título</th>
-                <th className="border p-2">Autor</th>
-                <th className="border p-2">Materia</th>
-                <th className="border p-2">Editorial</th>
-                <th className="border p-2">Cantidad</th>
-                <th className="border p-2">Estado</th>
-                <th className="border p-2">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredLibros.map((libro, index) => (
-                <tr key={index} className="text-center">
-                  <td className="border p-2">{libro.codigo}</td>
-                  <td className="border p-2">{libro.titulo}</td>
-                  <td className="border p-2">{libro.autor}</td>
-                  <td className="border p-2">{libro.materia}</td>
-                  <td className="border p-2">{libro.editorial}</td>
-                  <td className="border p-2">{libro.cantidad}</td>
-                  <td className="border p-2">
-                    <span
-                      className={`font-semibold ${
-                        libro.estado === "Disponible"
-                          ? "text-green-600"
-                          : "text-red-600"
-                      }`}
-                    >
-                      {libro.estado}
-                    </span>
-                  </td>
-
-                  <td className="border p-2">
-                    <ActionsTable
-                      handleDelete={() => handleDeleteLibro(libro.id)}
-                      handleEdit={() => {
-                        setSelectedLibro(libro);
-                        setIsModalOpen(true);
-                      }}
-                      handleView={() => {
-                        setSelectedLibro(libro);
-                        setIsDetailOpen(true);
-                      }}
-                    />
-                  </td>
+          <div className="h-full overflow-y-auto overflow-x-auto">
+            <table className="w-full  table-auto rounded border text-[9px] md:text-[12px] border-gray-100">
+              <thead>
+                <tr className="bg-gray-100">
+                  <th className="border p-1 md:p-2">Código</th>
+                  <th className="border p-1 md:p-2">Título</th>
+                  <th className="border p-1 md:p-2">Autor</th>
+                  <th className="border p-1 md:p-2">Materia</th>
+                  <th className="border p-1 md:p-2">Editorial</th>
+                  <th className="border p-1 md:p-2">Cantidad</th>
+                  <th className="border p-1 md:p-2">Estado</th>
+                  <th className="border p-1 md:p-2">Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>{" "}
-        </div>{" "}
+              </thead>
+              <tbody>
+                {filteredLibros.map((libro, index) => (
+                  <tr key={index} className="text-[8px] md:text-[12px] ">
+                    <td className="border p-1 md:p-2">{libro.codigo}</td>
+                    <td className="border p-1 md:p-2">{libro.titulo}</td>
+                    <td className="border p-1 md:p-2">{libro.autor}</td>
+                    <td className="border p-1 md:p-2">{libro.materia}</td>
+                    <td className="border p-1 md:p-2">{libro.editorial}</td>
+                    <td className="border p-1 text-center md:p-2">
+                      {libro.cantidad}
+                    </td>
+                    <td className="border text-center p-1 md:p-2">
+                      <span
+                        className={`px-2 py-1 rounded-fullfont-semibold text-white text-xs md:text-sm ${
+                          libro.estado === "Disponible"
+                            ? "bg-green-600"
+                            : "bg-red-600"
+                        }`}
+                      >
+                        {libro.estado}
+                      </span>
+                    </td>
+
+                    <td className="border p-1 md:p-2">
+                      <ActionsTable
+                        handleDelete={() => handleDeleteLibro(libro.id)}
+                        handleEdit={() => {
+                          setSelectedLibro(libro);
+                          setIsModalOpen(true);
+                        }}
+                        handleView={() => {
+                          setSelectedLibro(libro);
+                          setIsDetailOpen(true);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>{" "}
+          </div>{" "}
+        </div>
         <BookForm
           isOpen={isModalOpen}
           onClose={() => {

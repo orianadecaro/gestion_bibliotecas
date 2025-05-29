@@ -18,19 +18,17 @@ export const SocioDetail = ({ isOpen, onClose, socio }) => {
             <strong>Email:</strong> {socio.email}
           </li>
           <li>
-            <strong>Perfil:</strong> {socio.perfil_id}
+            <strong>Perfil:</strong> {socio.perfil_nombre.toUpperCase()}
           </li>
 
           <li>
             <strong>Estado:</strong>{" "}
             <span
-              className={`font-semibold ${
-                socio.estado === "Disponible"
-                  ? "text-green-600"
-                  : "text-red-600"
+              className={`font-semibold py-1 px-2 text-white rounded-full ${
+                socio.estado === true ? "bg-green-600" : "bg-red-600"
               }`}
             >
-              {socio.estado}
+              {socio.estado === true ? "Habilitado" : "No habilitado"}
             </span>
           </li>
         </ul>

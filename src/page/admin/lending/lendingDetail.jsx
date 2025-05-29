@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getLibrosById } from "../../../service/librosService";
 import { getSociosById } from "../../../service/sociosService";
+import { formatDate } from "../../../utils/lendingUtils";
 
 export const LendingDetail = ({ isOpen, onClose, prestamo }) => {
   const [libro, setLibro] = useState(null);
@@ -28,7 +29,9 @@ export const LendingDetail = ({ isOpen, onClose, prestamo }) => {
   return (
     <div className="fixed inset-0 z-50 bg-[rgba(0,0,0,0.4)] flex items-center justify-center">
       <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <h2 className="text-lg font-semibold mb-4">Detalle del Prestamo</h2>
+        <h2 className="text-lg font-semibold mb-4">
+          Detalle del Préstamo/Devolución
+        </h2>
         <ul className="space-y-2 text-sm">
           <li>
             <strong>Código:</strong> {libro?.codigo || "Cargando..."}
@@ -40,19 +43,23 @@ export const LendingDetail = ({ isOpen, onClose, prestamo }) => {
             <strong>Socio:</strong> {socio?.nombre || "Cargando..."}
           </li>
           <li>
-            <strong>Fecha Préstamo:</strong> {prestamo.fechaprestamo}
+            <strong>Fecha Préstamo:</strong>{" "}
+            {formatDate(prestamo.fechaprestamo)}
           </li>
           <li>
-            <strong>Fecha Devolución:</strong> {prestamo.fechadevolucion}
+            <strong>Fecha Devolución:</strong>{" "}
+            {formatDate(prestamo.fechadevolucion) || "No"}
           </li>
 
           <li>
             <strong>Estado:</strong>{" "}
             <span
-              className={`font-semibold ${
+              className={`px-2 py-1 rounded-full font-semibold text-white text-xs md:text-sm ${
                 prestamo.estado === "Disponible"
-                  ? "text-green-600"
-                  : "text-red-600"
+                  ? "bg-green-600"
+                  : prestamo.estado === "Reservado"
+                  ? "bg-orange-500"
+                  : "bg-red-600"
               }`}
             >
               {prestamo.estado}

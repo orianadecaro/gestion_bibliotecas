@@ -76,7 +76,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {[
             { label: "Nombre y Apellido", name: "nombre" },
-            { label: "Email", name: "Email" },
+            { label: "Email", name: "email" },
             { label: "Teléfono", name: "telefono" },
           ].map(({ label, name }) => (
             <div key={name}>

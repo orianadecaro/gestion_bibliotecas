@@ -1,6 +1,6 @@
 import React from "react";
-import { sidebarData } from "../constants/sidebarData";
-import { useNavigate } from "react-router-dom";
+import { sidebarData } from "../../constants/sidebarData";
+import { Link, useNavigate } from "react-router-dom";
 import { FaChartBar, FaRegUserCircle } from "react-icons/fa";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
@@ -28,20 +28,19 @@ const Sidebar = () => {
   return (
     <div className="lg:flex bg-gray-400 w-1/5 hidden flex-col h-full border-r shadow px-3 border-gray-200">
       <div className="flex justify-between items-center my-5">
-        <div>
+        <Link to="/">
           <img
             src="/logo.jpeg"
             className="object-contain w-40 rounded "
             alt="biblioteca Logo"
           />
-        </div>
+        </Link>
         <p className="text-white text-2xl text-center font-semibold">
           Gestión de Bibliotecas
         </p>
       </div>
       <nav className="my-10 flex flex-col gap-5">
-        <p className="text-center font-bold t text-blue-700 text-2xl">
-          {" "}
+        <p className="text-center font-bold t text-white text-xl">
           ¡Hola {user.nombre}!
         </p>
         <hr className="border-gray-200 w-full" />

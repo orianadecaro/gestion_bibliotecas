@@ -211,7 +211,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 required
               >
                 <option value="Disponible">Disponible</option>
-                <option value="En prestamo">En préstamo</option>
+                <option value="En préstamo">En préstamo</option>
                 <option value="Reservado">Reservado</option>
               </select>
             </div>
