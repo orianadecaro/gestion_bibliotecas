@@ -9,6 +9,7 @@ import SocioList from "./page/admin/socio";
 import ProfileList from "./page/admin/profile";
 import LayoutMain from "./components/layout/layoutMain";
 import LayoutAdmin from "./components/layout/layoutAdmin";
+import PrivateRoute from "./routes/PrivateRoute";
 
 function App() {
   return (
@@ -25,49 +26,61 @@ function App() {
         <Route
           path="/admin/dashboard"
           element={
-            <LayoutAdmin>
-              <Dashboard />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <Dashboard />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
         <Route
           path="/admin/user"
           element={
-            <LayoutAdmin>
-              <UserList />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <UserList />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
         <Route
           path="/admin/book"
           element={
-            <LayoutAdmin>
-              <BookList />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <BookList />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
         <Route
           path="/admin/lending"
           element={
-            <LayoutAdmin>
-              <LendingList />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <LendingList />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
         <Route
           path="/admin/socio"
           element={
-            <LayoutAdmin>
-              <SocioList />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <SocioList />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
         <Route
           path="/admin/profile"
           element={
-            <LayoutAdmin>
-              <ProfileList />{" "}
-            </LayoutAdmin>
+            <PrivateRoute>
+              <LayoutAdmin>
+                <ProfileList />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
           }
         />
       </Routes>

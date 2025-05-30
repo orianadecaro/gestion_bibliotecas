@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
-import { login } from "../../auth";
+import { useAuth } from "../../context/AuthContext";
+import { loginRequest } from "../../auth";
 
 const Navbar = () => {
   const navigation = useNavigate();
@@ -11,13 +12,14 @@ const Navbar = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const result = await login({ email, password });
-      localStorage.setItem("user", JSON.stringify(result.user));
-      localStorage.setItem("token", result.token);
+      const result = await loginRequest({ email, password });
+      login(result);
       navigation("/admin/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Credenciales inválidas");

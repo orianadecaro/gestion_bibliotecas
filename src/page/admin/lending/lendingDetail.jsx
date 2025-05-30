@@ -55,7 +55,7 @@ export const LendingDetail = ({ isOpen, onClose, prestamo }) => {
             <strong>Estado:</strong>{" "}
             <span
               className={`px-2 py-1 rounded-full font-semibold text-white text-xs md:text-sm ${
-                prestamo.estado === "Disponible"
+                prestamo.estado === "Devuelto"
                   ? "bg-green-600"
                   : prestamo.estado === "Reservado"
                   ? "bg-orange-500"

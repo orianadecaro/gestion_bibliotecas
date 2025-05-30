@@ -14,9 +14,9 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     socio_id: "",
     fechaprestamo: "",
     fechadevolucion: "",
-    estado: "Disponible",
+    estado: "",
   });
-
+  const isEditing = Boolean(selectItem?.id);
   const [libroSearch, setLibroSearch] = useState("");
   const [socioSearch, setSocioSearch] = useState("");
 
@@ -45,17 +45,35 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
 
   useEffect(() => {
     if (selectItem) {
-      setFormData(selectItem);
+      setFormData(selectItem || {});
+
+      // Buscar libro y socio para mostrar su nombre/título en los inputs visibles
+      const libroSeleccionado = libros.find(
+        (l) => l.id === selectItem.libro_id
+      );
+      const socioSeleccionado = socios.find(
+        (s) => s.id === selectItem.socio_id
+      );
+
+      setLibroSearch(
+        libroSeleccionado
+          ? `${libroSeleccionado.codigo} - ${libroSeleccionado.titulo} - ${libroSeleccionado.autor}`
+          : ""
+      );
+
+      setSocioSearch(socioSeleccionado ? socioSeleccionado.nombre : "");
     } else {
       setFormData({
         libro_id: "",
         socio_id: "",
         fechaprestamo: "",
         fechadevolucion: "",
-        estado: "Disponible",
+        estado: "",
       });
+      setLibroSearch("");
+      setSocioSearch("");
     }
-  }, [selectItem]);
+  }, [selectItem, libros, socios]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -65,10 +83,15 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const payload = {
+        ...formData,
+        fechadevolucion: formData.fechadevolucion || null,
+      };
+
       if (selectItem?.id) {
-        await updatePrestamos({ ...formData, id: selectItem.id });
+        await updatePrestamos({ ...payload, id: selectItem.id });
       } else {
-        await createPrestamos(formData);
+        await createPrestamos(payload);
       }
       if (onUpdate) await onUpdate();
       setFormData({
@@ -76,7 +99,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         socio_id: "",
         fechaprestamo: "",
         fechadevolucion: "",
-        estado: "Disponible",
+        estado: "",
       });
 
       onClose();
@@ -107,10 +130,15 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                   setFormData((prev) => ({ ...prev, libro_id: "" }));
                 }}
                 placeholder="Buscar libro por título, código o autor"
-                className="w-full border p-2 mb-2 rounded text-sm"
+                className={`w-full border p-2 mb-2 rounded text-sm ${
+                  isEditing
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-white text-black"
+                }`}
+                disabled={isEditing}
               />
 
-              {libroSearch && (
+              {libroSearch && !formData.libro_id && (
                 <ul className="absolute z-10 w-full max-h-40 overflow-y-auto bg-white border border-gray-300 rounded shadow text-sm">
                   {filteredLibros.length > 0 ? (
                     filteredLibros.map((libro) => (
@@ -118,7 +146,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                         key={libro.id}
                         onClick={() => {
                           setLibroSearch(
-                            `${libro.titulo} - ${libro.codigo} - ${libro.autor}`
+                            `${libro.codigo} - ${libro.titulo} -  ${libro.autor}`
                           );
                           setFormData((prev) => ({
                             ...prev,
@@ -127,7 +155,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                         }}
                         className="px-2 py-1 cursor-pointer hover:bg-gray-100"
                       >
-                        {libro.titulo} - {libro.codigo} - {libro.autor}
+                        {libro.codigo}- {libro.titulo} - {libro.autor}
                       </li>
                     ))
                   ) : !formData.libro_id ? (
@@ -149,10 +177,15 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                   setFormData((prev) => ({ ...prev, socio_id: "" }));
                 }}
                 placeholder="Buscar socio por nombre"
-                className="w-full border p-2 mb-2 rounded text-sm"
+                className={`w-full border p-2 mb-2 rounded text-sm ${
+                  isEditing
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-white text-black"
+                }`}
+                disabled={isEditing}
               />
 
-              {socioSearch && (
+              {socioSearch && !formData.socio_id && (
                 <ul className="absolute z-10 w-full max-h-40 overflow-y-auto bg-white border border-gray-300 rounded shadow text-sm">
                   {filteredSocios.length > 0 ? (
                     filteredSocios.map((socio) => (
@@ -183,10 +216,15 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
               <label className="text-sm font-medium">Fecha Prestamo</label>
               <input
                 type="date"
-                name="Fecha"
+                name="fechaprestamo"
                 value={formData.fechaprestamo}
                 onChange={handleInputChange}
-                className="w-full border p-2 rounded text-sm"
+                className={`w-full border p-2 mb-2 rounded text-sm ${
+                  isEditing
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-white text-black"
+                }`}
+                disabled={isEditing}
                 required
               />
             </div>
@@ -194,11 +232,10 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
               <label className="text-sm font-medium">Fecha Devolucion</label>
               <input
                 type="date"
-                name="Fecha"
+                name="fechadevolucion"
                 value={formData.fechadevolucion}
                 onChange={handleInputChange}
                 className="w-full border p-2 rounded text-sm"
-                required
               />
             </div>
             <div>
@@ -210,9 +247,15 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 className="w-full border p-2 rounded text-sm"
                 required
               >
-                <option value="Disponible">Disponible</option>
-                <option value="En préstamo">En préstamo</option>
-                <option value="Reservado">Reservado</option>
+                <option value="En préstamo" className="bg-red-500">
+                  En préstamo
+                </option>
+                <option value="Devuelto" className="bg-green-500">
+                  Devuelto
+                </option>
+                <option value="Reservado" className="bg-orange-500">
+                  Reservado
+                </option>
               </select>
             </div>
 

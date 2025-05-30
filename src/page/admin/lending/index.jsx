@@ -20,23 +20,23 @@ const LendingList = () => {
   const [libros, setLibros] = useState([]);
   const [socios, setSocios] = useState([]);
 
+  const fetchData = async () => {
+    try {
+      const [prestamosData, librosData, sociosData] = await Promise.all([
+        getAllPrestamos(),
+        getAllLibros(),
+        getAllSocios(),
+      ]);
+
+      if (prestamosData) setPrestamos(prestamosData);
+      if (librosData) setLibros(librosData);
+      if (sociosData) setSocios(sociosData);
+    } catch (error) {
+      console.error("Error al cargar los datos:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [prestamosData, librosData, sociosData] = await Promise.all([
-          getAllPrestamos(),
-          getAllLibros(),
-          getAllSocios(),
-        ]);
-
-        if (prestamosData) setPrestamos(prestamosData);
-        if (librosData) setLibros(librosData);
-        if (sociosData) setSocios(sociosData);
-      } catch (error) {
-        console.error("Error al cargar los datos:", error);
-      }
-    };
-
     fetchData();
   }, []);
 
@@ -101,7 +101,7 @@ const LendingList = () => {
                     <td className="border text-center  p-1 md:p-2">
                       <span
                         className={`px-2 py-1  rounded-full font-semibold text-white text-xs md:text-sm ${
-                          prestamo.estado === "Disponible"
+                          prestamo.estado === "Devuelto"
                             ? "bg-green-600"
                             : prestamo.estado === "Reservado"
                             ? "bg-orange-500"
@@ -138,7 +138,7 @@ const LendingList = () => {
           setSelectedPrestamo(null);
         }}
         selectItem={selectedPrestamo}
-        onUpdate={prestamos}
+        onUpdate={fetchData}
       />
       <LendingDetail
         isOpen={isDetailOpen}

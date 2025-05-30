@@ -7,9 +7,11 @@ import { FiUsers } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
 import { LuBookText } from "react-icons/lu";
 import { ImProfile } from "react-icons/im";
+import { useAuth } from "../../context/AuthContext";
 
 const Sidebar = () => {
   const navigation = useNavigate();
+  const { logout, user } = useAuth();
   const iconMap = {
     FaChartBar: <FaChartBar />,
     FaRegUser: <FaRegUserCircle />,
@@ -18,11 +20,10 @@ const Sidebar = () => {
     BsFillJournalBookmarkFill: <BsFillJournalBookmarkFill />,
     ImProfile: <ImProfile />,
   };
-  const user = JSON.parse(localStorage.getItem("user"));
-  const logout = (navigate) => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    navigate("/");
+
+  const handleLogout = (navigate) => {
+    logout(navigate);
+    navigation("/");
   };
 
   return (
@@ -41,7 +42,7 @@ const Sidebar = () => {
       </div>
       <nav className="my-10 flex flex-col gap-5">
         <p className="text-center font-bold t text-white text-xl">
-          ¡Hola {user.nombre}!
+          ¡Hola {user?.user?.nombre}!
         </p>
         <hr className="border-gray-200 w-full" />
         {sidebarData &&
@@ -60,7 +61,7 @@ const Sidebar = () => {
       </nav>{" "}
       <button
         className="my-5 flex py-2.5 px-2 w-52 rounded cursor-pointer  transition duration-200 hover:bg-[#1cc702] hover:text-white"
-        onClick={logout}
+        onClick={() => handleLogout(navigation)}
       >
         <span className="mr-3 mt-1 text-xl items-center">
           <IoMdLogOut />

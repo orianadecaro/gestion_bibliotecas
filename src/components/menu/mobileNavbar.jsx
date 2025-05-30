@@ -8,11 +8,12 @@ import { IoMdLogOut } from "react-icons/io";
 import { LuBookText } from "react-icons/lu";
 import { ImProfile } from "react-icons/im";
 import { IoMdMenu, IoMdClose } from "react-icons/io";
+import { useAuth } from "../../context/AuthContext";
 
 const MobileNavbar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-
+  const { logout, user } = useAuth();
   const iconMap = {
     FaChartBar: <FaChartBar />,
     FaRegUser: <FaRegUserCircle />,
@@ -22,12 +23,9 @@ const MobileNavbar = () => {
     ImProfile: <ImProfile />,
   };
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  const logout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    navigate("/");
+  const handleLogout = (navigate) => {
+    logout(navigate);
+    setOpen(false);
   };
 
   return (
@@ -41,7 +39,7 @@ const MobileNavbar = () => {
           />
         </Link>
         <p className="font-semibold text-white text-sm">
-          ¡Hola {user?.nombre}!
+          ¡Hola {user?.user?.nombre}!
         </p>
         <button onClick={() => setOpen(!open)} className="text-2xl text-white">
           {open ? <IoMdClose /> : <IoMdMenu />}
@@ -64,10 +62,7 @@ const MobileNavbar = () => {
             </button>
           ))}
           <button
-            onClick={() => {
-              logout();
-              setOpen(false);
-            }}
+            onClick={() => handleLogout(navigation)}
             className="flex items-center gap-3 py-2 px-3 rounded hover:bg-red-500 hover:text-white text-sm text-gray-700"
           >
             <span className="text-lg">
