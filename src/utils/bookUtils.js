@@ -23,7 +23,7 @@ export const importLibrosFromCSV = async (event) => {
       const headers = headerLine.trim().split(",");
 
       const libros = lines
-        .filter((line) => line.trim() !== "") // <--- filtrar líneas vacías aquí
+        .filter((line) => line.trim() !== "")
         .map((line) => {
           const values = line.trim().split(",");
           return headers.reduce((acc, key, i) => {

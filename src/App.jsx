@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import HomePage from "./page";
 import Dashboard from "./page/admin/dashboard";
 import UserList from "./page/admin/user";
@@ -10,6 +15,7 @@ import ProfileList from "./page/admin/profile";
 import LayoutMain from "./components/layout/layoutMain";
 import LayoutAdmin from "./components/layout/layoutAdmin";
 import PrivateRoute from "./routes/PrivateRoute";
+import NotFound from "./page/404";
 
 function App() {
   return (
@@ -83,6 +89,8 @@ function App() {
             </PrivateRoute>
           }
         />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </Router>
   );

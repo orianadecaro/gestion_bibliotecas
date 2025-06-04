@@ -47,7 +47,6 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     if (selectItem) {
       setFormData(selectItem || {});
 
-      // Buscar libro y socio para mostrar su nombre/título en los inputs visibles
       const libroSeleccionado = libros.find(
         (l) => l.id === selectItem.libro_id
       );
@@ -247,7 +246,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 className="w-full border p-2 rounded text-sm"
                 required
               >
-                <option value="En préstamo" className="bg-red-500">
+                <option value="En prestamo" className="bg-red-500">
                   En préstamo
                 </option>
                 <option value="Devuelto" className="bg-green-500">

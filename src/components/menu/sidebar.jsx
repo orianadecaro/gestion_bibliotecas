@@ -20,6 +20,24 @@ const Sidebar = () => {
     BsFillJournalBookmarkFill: <BsFillJournalBookmarkFill />,
     ImProfile: <ImProfile />,
   };
+  const perfil_id = user?.user?.perfil_id;
+
+  const getPermittedSidebarData = (perfil_id) => {
+    if (perfil_id === 1) return sidebarData;
+
+    if (perfil_id === 2) {
+      return sidebarData.filter((item) =>
+        [
+          "/admin/dashboard",
+          "/admin/book",
+          "/admin/lending",
+          "/admin/socio",
+        ].includes(item.path)
+      );
+    }
+
+    return [];
+  };
 
   const handleLogout = (navigate) => {
     logout(navigate);
@@ -45,19 +63,18 @@ const Sidebar = () => {
           ¡Hola {user?.user?.nombre}!
         </p>
         <hr className="border-gray-200 w-full" />
-        {sidebarData &&
-          sidebarData.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => navigation(item.path)}
-              className="flex py-2.5 cursor-pointer  px-2 w-52 text-[13px] rounded transition duration-200 hover:bg-[#1cc702] hover:text-white"
-            >
-              <span className="mr-3 text-xl items-center">
-                {iconMap[item.icon]}
-              </span>{" "}
-              {item.title}
-            </button>
-          ))}
+        {getPermittedSidebarData(perfil_id).map((item) => (
+          <button
+            key={item.id}
+            onClick={() => navigation(item.path)}
+            className="flex py-2.5 cursor-pointer px-2 w-52 text-[13px] rounded transition duration-200 hover:bg-[#1cc702] hover:text-white"
+          >
+            <span className="mr-3 text-xl items-center">
+              {iconMap[item.icon]}
+            </span>
+            {item.title}
+          </button>
+        ))}
       </nav>{" "}
       <button
         className="my-5 flex py-2.5 px-2 w-52 rounded cursor-pointer  transition duration-200 hover:bg-[#1cc702] hover:text-white"

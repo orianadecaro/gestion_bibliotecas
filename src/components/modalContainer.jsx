@@ -12,7 +12,6 @@ const ModalContainer = ({ open, setOpen, title, children }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
     >
-      {/* Fondo claro y translúcido */}
       <div
         className="absolute inset-0 bg-opacity-70"
         onClick={() => {
@@ -20,7 +19,6 @@ const ModalContainer = ({ open, setOpen, title, children }) => {
         }}
       />
 
-      {/* Contenedor del modal */}
       <div
         className="relative z-10 w-full md:w-1/2 mx-4 bg-white rounded-lg shadow-xl py-2 px-4"
         initial={{ scale: 0.95, opacity: 0 }}
@@ -42,7 +40,6 @@ const ModalContainer = ({ open, setOpen, title, children }) => {
           </button>
         </div>
 
-        {/* Contenido */}
         <div>{children}</div>
       </div>
     </div>

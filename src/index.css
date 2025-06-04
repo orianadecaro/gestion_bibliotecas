@@ -8,7 +8,6 @@ html {
   font-size: 14px;
 }
 
-/*Global Scroll Bar*/
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
