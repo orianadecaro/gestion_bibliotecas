@@ -24,7 +24,6 @@ const Dashboard = () => {
         };
 
         prestamos.forEach((p) => {
-          // Normalizar el estado para evitar problemas con tildes
           const estadoNormalizado = p.estado
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
@@ -39,7 +38,6 @@ const Dashboard = () => {
 
         const ctx = document.getElementById("myPieChart");
 
-        // Destruir el gráfico anterior para evitar duplicados
         if (ctx.chartInstance) {
           ctx.chartInstance.destroy();
         }
@@ -79,7 +77,6 @@ const Dashboard = () => {
           },
         });
 
-        // Guardamos la instancia del chart para destruirlo después
         ctx.chartInstance = pieChart;
       } catch (error) {
         console.error("Error cargando prestamos:", error);

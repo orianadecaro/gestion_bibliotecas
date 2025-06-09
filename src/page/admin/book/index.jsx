@@ -180,7 +180,9 @@ const BookList = () => {
                 className="mb-4 border p-2 rounded text-sm bg-gray-300"
               />
               <p className="text-sm text-gray-600 mb-4">
-                * El archivo debe estar en formato <strong>.csv</strong>
+                * El archivo debe estar en formato <strong>.csv</strong> <br />
+                El orden de las columnas es el siguiente: codigo, titulo, autor,
+                materia, editorial, cantidad, estado
               </p>
               <div className="flex justify-end gap-2">
                 <button

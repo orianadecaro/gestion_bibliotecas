@@ -5,6 +5,7 @@ import {
   createPrestamos,
   updatePrestamos,
 } from "../../../service/prestamosService";
+import { FaSpinner } from "react-icons/fa";
 
 export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   const [libros, setLibros] = useState([]);
@@ -19,6 +20,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   const isEditing = Boolean(selectItem?.id);
   const [libroSearch, setLibroSearch] = useState("");
   const [socioSearch, setSocioSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const filteredLibros = libros.filter((libro) =>
     `${libro.titulo} ${libro.codigo} ${libro.autor}`
@@ -44,6 +46,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   }, []);
 
   useEffect(() => {
+    setLoading(false);
     if (selectItem) {
       setFormData(selectItem || {});
 
@@ -81,6 +84,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const payload = {
         ...formData,
@@ -104,6 +108,8 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
       onClose();
     } catch (error) {
       console.error("Error al guardar el libro:", error);
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -5,8 +5,10 @@ import {
 } from "../../../service/usuariosService";
 import { getAllPerfiles } from "../../../service/perfilesService";
 import { BsEye, BsEyeSlash } from "react-icons/bs";
+import { FaSpinner } from "react-icons/fa";
 
 export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
+  const [loading, setLoading] = useState(false);
   const [perfiles, setPerfiles] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -30,6 +32,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   }, []);
 
   useEffect(() => {
+    setLoading(false);
     if (selectItem) {
       setFormData({
         ...selectItem,
@@ -62,6 +65,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (selectItem?.id) {
         await updateUsuarios({ ...formData, id: selectItem.id });
@@ -81,6 +85,8 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
       onClose();
     } catch (error) {
       console.error("Error al guardar el usuario:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -170,9 +176,14 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white text-sm px-4 py-2 rounded"
+              disabled={loading}
+              className="bg-blue-600 text-white text-sm px-4 py-2 rounded flex items-center justify-center min-w-[90px]"
             >
-              Guardar
+              {loading ? (
+                <FaSpinner className="animate-spin h-4 w-4" />
+              ) : (
+                "Guardar"
+              )}
             </button>
           </div>
         </form>

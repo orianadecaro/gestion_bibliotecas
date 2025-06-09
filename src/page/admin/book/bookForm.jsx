@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { createLibros, updateLibros } from "../../../service/librosService";
+import { FaSpinner } from "react-icons/fa";
 
 export const BookForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     titulo: "",
     autor: "",
@@ -13,6 +15,7 @@ export const BookForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   });
 
   useEffect(() => {
+    setLoading(false);
     if (selectItem) {
       setFormData(selectItem);
     } else {
@@ -35,6 +38,7 @@ export const BookForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (selectItem?.id) {
         await updateLibros({ ...formData, id: selectItem.id });
@@ -55,6 +59,8 @@ export const BookForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
       onClose();
     } catch (error) {
       console.error("Error al guardar el libro:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -113,9 +119,14 @@ export const BookForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white text-sm px-4 py-2 rounded"
+              disabled={loading}
+              className="bg-blue-600 text-white text-sm px-4 py-2 rounded flex items-center justify-center min-w-[90px]"
             >
-              Guardar
+              {loading ? (
+                <FaSpinner className="animate-spin h-4 w-4" />
+              ) : (
+                "Guardar"
+              )}
             </button>
           </div>
         </form>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { createSocios, updateSocios } from "../../../service/sociosService";
 import { getAllPerfiles } from "../../../service/perfilesService";
+import { FaSpinner } from "react-icons/fa";
 
 export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   const [perfiles, setPerfiles] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     nombre: "",
     email: "",
@@ -24,6 +26,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     perfiles.find((p) => p.id === Number(formData.perfil_id))?.nombre || "";
 
   useEffect(() => {
+    setLoading(false);
     if (selectItem) {
       setFormData(selectItem);
     } else {
@@ -44,6 +47,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (selectItem?.id) {
         await updateSocios({ ...formData, id: selectItem.id });
@@ -62,6 +66,8 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
       onClose();
     } catch (error) {
       console.error("Error al guardar el libro:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -127,9 +133,14 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
             </button>
             <button
               type="submit"
-              className="bg-blue-600 text-white text-sm px-4 py-2 rounded"
+              disabled={loading}
+              className="bg-blue-600 text-white text-sm px-4 py-2 rounded flex items-center justify-center min-w-[90px]"
             >
-              Guardar
+              {loading ? (
+                <FaSpinner className="animate-spin h-4 w-4" />
+              ) : (
+                "Guardar"
+              )}
             </button>
           </div>
         </form>

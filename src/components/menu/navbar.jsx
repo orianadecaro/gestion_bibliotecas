@@ -4,6 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import { FaEye, FaEyeSlash, FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../../context/AuthContext";
 import { loginRequest } from "../../auth";
+import { FaSpinner } from "react-icons/fa";
 
 const Navbar = () => {
   const navigation = useNavigate();
@@ -13,16 +14,19 @@ const Navbar = () => {
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const result = await loginRequest({ email, password });
       login(result);
       navigation("/admin/dashboard");
     } catch (err) {
       setError(err.response?.data?.error || "Credenciales inválidas");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -99,9 +103,14 @@ const Navbar = () => {
                 )}
                 <button
                   type="submit"
-                  className="h-8 w-full bg-[#1cc702] cursor-pointer text-white py-1 items-center rounded-full hover:opacity-75 transition"
+                  disabled={loading}
+                  className="h-8 w-full bg-[#1cc702] cursor-pointer text-white py-1 rounded-full hover:opacity-75 transition flex justify-center items-center"
                 >
-                  Ingresar
+                  {loading ? (
+                    <FaSpinner className="animate-spin text-center h-5 w-5" />
+                  ) : (
+                    "Ingresar"
+                  )}
                 </button>
               </form>
             </div>
