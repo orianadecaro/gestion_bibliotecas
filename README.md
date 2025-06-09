@@ -44,7 +44,7 @@ npm run build Compila la aplicación para producción
 npm run preview Previsualiza el build de producción
 npm run lint Ejecuta el linter para verificar el código
 
-<img src="/public/diagrama.png" alt="Diagrama del sistema" style="width:100%; max-width:800px;" />
+<img src="/public/diagrama.png" alt="Diagrama del sistema" style="width:60%; max-width:400px;" />
 
 ## 📁 Estructura del Proyecto
 
