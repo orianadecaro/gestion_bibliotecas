@@ -1,42 +1,94 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderTable from "../../../components/table/headerTable";
 import { Chart, PieController, ArcElement, Tooltip, Legend } from "chart.js";
+import { getAllPrestamos } from "../../../service/prestamosService";
 
 Chart.register(PieController, ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
+  const [counts, setCounts] = useState({
+    "En préstamo": 0,
+    Devuelto: 0,
+    Reservado: 0,
+  });
+
   useEffect(() => {
-    const ctx = document.getElementById("myPieChart");
+    const fetchData = async () => {
+      try {
+        const prestamos = await getAllPrestamos();
 
-    const pieChart = new Chart(ctx, {
-      type: "pie",
-      data: {
-        labels: ["Libros", "Videos", "Archivos"],
-        datasets: [
-          {
-            label: "My First Dataset",
-            data: [300, 50, 100],
-            backgroundColor: [
-              "rgb(255, 99, 132)",
-              "rgb(54, 162, 235)",
-              "rgb(255, 205, 86)",
+        const countsTemp = {
+          "En préstamo": 0,
+          Devuelto: 0,
+          Reservado: 0,
+        };
+
+        prestamos.forEach((p) => {
+          // Normalizar el estado para evitar problemas con tildes
+          const estadoNormalizado = p.estado
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+
+          if (estadoNormalizado === "en prestamo") countsTemp["En préstamo"]++;
+          else if (estadoNormalizado === "devuelto") countsTemp["Devuelto"]++;
+          else if (estadoNormalizado === "reservado") countsTemp["Reservado"]++;
+        });
+
+        setCounts(countsTemp);
+
+        const ctx = document.getElementById("myPieChart");
+
+        // Destruir el gráfico anterior para evitar duplicados
+        if (ctx.chartInstance) {
+          ctx.chartInstance.destroy();
+        }
+
+        const pieChart = new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: [
+              `En préstamo (${countsTemp["En préstamo"]})`,
+              `Devuelto (${countsTemp["Devuelto"]})`,
+              `Reservado (${countsTemp["Reservado"]})`,
             ],
-            hoverOffset: 4,
+            datasets: [
+              {
+                label: "Libros por estado",
+                data: [
+                  countsTemp["En préstamo"],
+                  countsTemp["Devuelto"],
+                  countsTemp["Reservado"],
+                ],
+                backgroundColor: [
+                  "rgb(255, 99, 132)",
+                  "rgb(54, 162, 235)",
+                  "rgb(255, 205, 86)",
+                ],
+                hoverOffset: 4,
+              },
+            ],
           },
-        ],
-      },
-      options: {
-        responsive: true,
-        plugins: {
-          legend: {
-            position: "bottom",
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+            },
           },
-        },
-      },
-    });
+        });
 
-    return () => pieChart.destroy();
+        // Guardamos la instancia del chart para destruirlo después
+        ctx.chartInstance = pieChart;
+      } catch (error) {
+        console.error("Error cargando prestamos:", error);
+      }
+    };
+
+    fetchData();
   }, []);
+
   return (
     <div className="h-full w-full px-3 py-2">
       <HeaderTable title="Dashboard" />
@@ -46,4 +98,5 @@ const Dashboard = () => {
     </div>
   );
 };
+
 export default Dashboard;

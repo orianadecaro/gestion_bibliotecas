@@ -13,7 +13,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     nombre: "",
     email: "",
     telefono: "",
-    perfil_id: 3,
+    perfil_id: 2,
     password_hash: "",
     estado: true,
   });
@@ -22,7 +22,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     const fetchPerfiles = async () => {
       const perfilesData = await getAllPerfiles();
       const filtered = (perfilesData || []).filter(
-        (p) => p.id === 1 || p.id === 3
+        (p) => p.id === 1 || p.id === 2
       );
       setPerfiles(filtered);
     };
@@ -42,7 +42,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         nombre: "",
         email: "",
         telefono: "",
-        perfil_id: 3,
+        perfil_id: 2,
         password_hash: "",
         estado: true,
       });
@@ -73,7 +73,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         nombre: "",
         email: "",
         telefono: "",
-        perfil_id: 3,
+        perfil_id: 2,
         password_hash: "",
         estado: true,
       });

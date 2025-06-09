@@ -8,7 +8,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     nombre: "",
     email: "",
     telefono: "",
-    perfil_id: 2,
+    perfil_id: 3,
     estado: true,
   });
 
@@ -31,7 +31,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         nombre: "",
         email: "",
         telefono: "",
-        perfil_id: 2,
+        perfil_id: 3,
         estado: true,
       });
     }
@@ -55,7 +55,7 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         nombre: "",
         email: "",
         telefono: "",
-        perfil_id: 2,
+        perfil_id: 3,
         estado: true,
       });
 
