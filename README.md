@@ -1,11 +1,14 @@
-📚 Gestión de Biblioteca
+## 📚 Gestión de Biblioteca
+
 Proyecto de gestión de biblioteca desarrollado con React y Vite. Permite administrar libros, usuarios, socios y préstamos de forma eficiente mediante una interfaz intuitiva y responsiva.
 
-👩‍💻 Integrantes
+## 👩‍💻 Integrantes
+
 Sandra Galiano
 Oriana De Caro
 
-🚀 Tecnologías utilizadas
+## 🚀 Tecnologías utilizadas
+
 React – Librería para construir interfaces de usuario
 Vite – Empaquetador moderno para desarrollo rápido
 Axios – Cliente HTTP para consumo de APIs
@@ -13,7 +16,38 @@ React Router – Navegación entre páginas
 ESLint – Linter de código JavaScript
 Tailwind CSS (si aplica) – Utilidades para estilos
 
-📁 Estructura del Proyecto
+## 🛠️ Instalación
+
+1- Cloná el repositorio:
+git clone <gestion_bibliotecas>
+cd gestion_biblioteca
+2-Instalá las dependencias:
+npm install
+3-Ejecutá el entorno de desarrollo:
+npm run dev
+4-Abrí tu navegador en http://localhost:5173
+
+## ✅ Funcionalidades principales
+
+📖 Gestión de libros (ABM)
+👥 Administración de usuarios y socios
+📆 Registro de préstamos y devoluciones
+🔐 Autenticación con rutas protegidas
+📊 Panel de administración
+🔍 Búsqueda y filtros en tablas
+
+## ⚙️ Comandos útiles
+
+Comando Descripción
+npm run dev Inicia el entorno de desarrollo
+npm run build Compila la aplicación para producción
+npm run preview Previsualiza el build de producción
+npm run lint Ejecuta el linter para verificar el código
+
+![Diagrama del sistema](./diagrama.png)
+
+## 📁 Estructura del Proyecto
+
 css
 Copiar
 Editar
@@ -92,28 +126,3 @@ Otros archivos:
 ├── package-lock.json
 ├── vite.config.js
 └── README.md
-
-🛠️ Instalación
-1- Cloná el repositorio:
-git clone <url-del-repo>
-cd gestion_biblioteca
-2-Instalá las dependencias:
-npm install
-3-Ejecutá el entorno de desarrollo:
-npm run dev
-4-Abrí tu navegador en http://localhost:5173
-
-✅ Funcionalidades principales
-📖 Gestión de libros (ABM)
-👥 Administración de usuarios y socios
-📆 Registro de préstamos y devoluciones
-🔐 Autenticación con rutas protegidas
-📊 Panel de administración
-🔍 Búsqueda y filtros en tablas
-
-⚙️ Comandos útiles
-Comando Descripción
-npm run dev Inicia el entorno de desarrollo
-npm run build Compila la aplicación para producción
-npm run preview Previsualiza el build de producción
-npm run lint Ejecuta el linter para verificar el código
