@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  console.log(user);
+  //console.log(user);
 
   const logout = () => {
     setUser(null);

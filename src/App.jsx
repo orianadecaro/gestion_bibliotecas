@@ -16,6 +16,14 @@ import LayoutMain from "./components/layout/layoutMain";
 import LayoutAdmin from "./components/layout/layoutAdmin";
 import PrivateRoute from "./routes/PrivateRoute";
 import NotFound from "./page/404";
+import SocioDashboard from "./page/socio/dashboard";
+import SocioLogin from "./page/socio";
+import AboutUs from "./page/about";
+import LoginBibliotecario from "./page/admin";
+import SocioRegister from "./page/socio/register";
+import LayoutSocio from "./components/layout/layoutSocio";
+import SocioProfile from "./page/socio/profile";
+import UserProfile from "./page/admin/userprofile";
 
 function App() {
   return (
@@ -29,6 +37,7 @@ function App() {
             </LayoutMain>
           }
         />
+        <Route path="/admin" element={<LoginBibliotecario />} />
         <Route
           path="/admin/dashboard"
           element={
@@ -87,6 +96,36 @@ function App() {
                 <ProfileList />{" "}
               </LayoutAdmin>
             </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin/userprofile"
+          element={
+            <PrivateRoute>
+              <LayoutAdmin>
+                <UserProfile />{" "}
+              </LayoutAdmin>
+            </PrivateRoute>
+          }
+        />
+
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/socio" element={<SocioLogin />} />
+        <Route path="/socio/register" element={<SocioRegister />} />
+        <Route
+          path="/socio/dashboard"
+          element={
+            <LayoutSocio>
+              <SocioDashboard />{" "}
+            </LayoutSocio>
+          }
+        />
+        <Route
+          path="/socio/profile"
+          element={
+            <LayoutSocio>
+              <SocioProfile />{" "}
+            </LayoutSocio>
           }
         />
         <Route path="/404" element={<NotFound />} />

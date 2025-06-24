@@ -35,4 +35,10 @@ export const sidebarData = [
     path: "/admin/profile",
     icon: "ImProfile",
   },
+  {
+    id: 7,
+    title: "Mi Perfil",
+    path: "/admin/userprofile",
+    icon: "FaStar",
+  },
 ];

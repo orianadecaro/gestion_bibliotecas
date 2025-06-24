@@ -1,7 +1,7 @@
 import React from "react";
 import { sidebarData } from "../../constants/sidebarData";
 import { Link, useNavigate } from "react-router-dom";
-import { FaChartBar, FaRegUserCircle } from "react-icons/fa";
+import { FaChartBar, FaRegUserCircle, FaStar } from "react-icons/fa";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
@@ -19,6 +19,7 @@ const Sidebar = () => {
     GiBookshelf: <LuBookText />,
     BsFillJournalBookmarkFill: <BsFillJournalBookmarkFill />,
     ImProfile: <ImProfile />,
+    FaStar: <FaStar />,
   };
   const perfil_id = user?.user?.perfil_id;
 
@@ -32,6 +33,7 @@ const Sidebar = () => {
           "/admin/book",
           "/admin/lending",
           "/admin/socio",
+          "/admin/userprofile",
         ].includes(item.path)
       );
     }
