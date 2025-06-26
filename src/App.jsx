@@ -110,7 +110,14 @@ function App() {
           }
         />
 
-        <Route path="/about" element={<AboutUs />} />
+        <Route
+          path="/about"
+          element={
+            <LayoutMain>
+              <AboutUs />
+            </LayoutMain>
+          }
+        />
         <Route path="/socio" element={<SocioLogin />} />
         <Route path="/socio/register" element={<SocioRegister />} />
         <Route
