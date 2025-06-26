@@ -12,6 +12,9 @@ export const SocioDetail = ({ isOpen, onClose, socio }) => {
             <strong>Nombre y Apellido:</strong> {socio.nombre}
           </li>
           <li>
+            <strong>DNI:</strong> {socio.dni}
+          </li>
+          <li>
             <strong>Teléfono:</strong> {socio.telefono}
           </li>
           <li>

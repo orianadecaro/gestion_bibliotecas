@@ -24,6 +24,7 @@ import SocioRegister from "./page/socio/register";
 import LayoutSocio from "./components/layout/layoutSocio";
 import SocioProfile from "./page/socio/profile";
 import UserProfile from "./page/admin/userprofile";
+import SocioHistory from "./page/socio/history";
 
 function App() {
   return (
@@ -117,6 +118,14 @@ function App() {
           element={
             <LayoutSocio>
               <SocioDashboard />{" "}
+            </LayoutSocio>
+          }
+        />
+        <Route
+          path="/socio/history"
+          element={
+            <LayoutSocio>
+              <SocioHistory />{" "}
             </LayoutSocio>
           }
         />

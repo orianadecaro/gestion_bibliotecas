@@ -30,13 +30,16 @@ const UserProfile = () => {
               {user.nombre}
             </h2>
             <p className="text-gray-700">
-              <strong>Email:</strong> {user.email}
-            </p>
+              <strong>DNI:</strong> {user.dni}
+            </p>{" "}
             <p className="text-gray-700">
               <strong>Teléfono:</strong> {user.telefono}
             </p>
             <p className="text-gray-700">
-              <strong>DNI:</strong> {user.dni}
+              <strong>Email:</strong> {user.email}
+            </p>
+            <p className="text-gray-700">
+              <strong>Perfil:</strong> {user.perfil_nombre}
             </p>
             <p className="text-gray-700">
               <strong>Estado:</strong>{" "}

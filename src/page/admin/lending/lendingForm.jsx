@@ -252,14 +252,14 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 className="w-full border p-2 rounded text-sm"
                 required
               >
-                <option value="En prestamo" className="bg-red-500">
-                  En préstamo
-                </option>
-                <option value="Devuelto" className="bg-green-500">
-                  Devuelto
-                </option>
                 <option value="Reservado" className="bg-orange-500">
                   Reservado
+                </option>
+                <option value="En prestamo" className="bg-red-500">
+                  En préstamo
+                  <option value="Devuelto" className="bg-green-500">
+                    Devuelto
+                  </option>
                 </option>
               </select>
             </div>

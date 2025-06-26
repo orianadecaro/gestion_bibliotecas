@@ -10,6 +10,9 @@ export const UserDetail = ({ isOpen, onClose, user }) => {
             <strong>Nombre y Apellido:</strong> {user.nombre}
           </li>
           <li>
+            <strong>DNI:</strong> {user.dni}
+          </li>
+          <li>
             <strong>Teléfono:</strong> {user.telefono}
           </li>
           <li>

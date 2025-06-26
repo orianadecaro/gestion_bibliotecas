@@ -12,6 +12,8 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     telefono: "",
     perfil_id: 3,
     estado: true,
+    password: "",
+    dni: "",
   });
 
   useEffect(() => {
@@ -36,6 +38,8 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         telefono: "",
         perfil_id: 3,
         estado: true,
+        password: "",
+        dni: "",
       });
     }
   }, [selectItem]);
@@ -61,6 +65,8 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         telefono: "",
         perfil_id: 3,
         estado: true,
+        password: "",
+        dni: "",
       });
 
       onClose();
@@ -82,8 +88,10 @@ export const SocioForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {[
             { label: "Nombre y Apellido", name: "nombre" },
-            { label: "Email", name: "email" },
+            { label: "DNI", name: "dni" },
             { label: "Teléfono", name: "telefono" },
+            { label: "Email", name: "email" },
+            { label: "Contraseña", name: "password" },
           ].map(({ label, name }) => (
             <div key={name}>
               <label className="text-sm font-medium">{label}</label>

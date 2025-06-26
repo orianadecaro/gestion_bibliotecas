@@ -18,6 +18,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     perfil_id: 2,
     password_hash: "",
     estado: true,
+    dni: "",
   });
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         perfil_id: 2,
         password_hash: "",
         estado: true,
+        dni: "",
       });
     }
   }, [selectItem]);
@@ -80,6 +82,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         perfil_id: 2,
         password_hash: "",
         estado: true,
+        dni: "",
       });
 
       onClose();
@@ -101,6 +104,7 @@ export const UserForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
         <form onSubmit={handleSubmit} className="space-y-3">
           {[
             { label: "Nombre y Apellido", name: "nombre" },
+            { label: "DNI", name: "dni" },
             { label: "Email", name: "email" },
             { label: "Teléfono", name: "telefono" },
           ].map(({ label, name }) => (

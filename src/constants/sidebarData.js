@@ -25,7 +25,7 @@ export const sidebarData = [
   },
   {
     id: 5,
-    title: "Usuarios",
+    title: "Usuarios-Staff",
     path: "/admin/user",
     icon: "FaRegUser",
   },

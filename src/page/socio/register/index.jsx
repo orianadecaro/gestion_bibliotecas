@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { createSocios } from "../../../service/sociosService";
 import { FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { CgPassword } from "react-icons/cg";
 
 const SocioRegister = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const SocioRegister = () => {
     dni: "",
     perfil_id: 3,
     estado: true,
+    password: "",
   });
 
   const handleInputChange = (e) => {
@@ -79,8 +81,9 @@ const SocioRegister = () => {
             {[
               { label: "Nombre y Apellido", name: "nombre" },
               { label: "DNI", name: "dni" },
-              { label: "Email", name: "email" },
               { label: "Teléfono", name: "telefono" },
+              { label: "Email", name: "email" },
+              { label: "Contraseña", name: "password" },
             ].map(({ label, name }) => (
               <div key={name}>
                 <label className="block text-sm font-medium text-gray-700">

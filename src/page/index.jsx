@@ -7,7 +7,7 @@ const HomePage = () => {
       <div className="absolute inset-0  bg-opacity-60 z-0" />
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-center min-h-screen px-6 md:px-16 gap-10">
         <div className="text-white max-w-xl text-center md:text-left animate-fade-in-up">
-          <h1 className="text-3xl mt-16 ms:mt-0 md:text-5xl font-bold mb-4 drop-shadow-md">
+          <h1 className="text-3xl mt-2 md:mt-16 ms:mt-0 md:text-5xl font-bold mb-4 drop-shadow-md">
             Biblioteca <span className="text-green-200">Jorge Luis Borges</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-200 mb-6 leading-relaxed">
