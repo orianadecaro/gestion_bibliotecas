@@ -12,10 +12,16 @@ const axiosConfig = {
 
 const axiosInstance = axios.create(axiosConfig);
 axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
+  // Intentar obtener el tokenSocio primero
+  const tokenSocio = localStorage.getItem("tokenSocio");
+  const tokenUser = localStorage.getItem("token");
+
+  if (tokenSocio) {
+    config.headers.Authorization = `Bearer ${tokenSocio}`;
+  } else if (tokenUser) {
+    config.headers.Authorization = `Bearer ${tokenUser}`;
   }
+
   return config;
 });
 

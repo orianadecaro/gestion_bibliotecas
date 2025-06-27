@@ -36,7 +36,7 @@ const SocioRegister = () => {
     setLoading(true);
     try {
       await createSocios(formData);
-      navigate("/socio/");
+      navigate("/socio/dashboard");
     } catch (error) {
       setErrorMessage(error.message);
       setTimeout(() => setErrorMessage(""), 2000);

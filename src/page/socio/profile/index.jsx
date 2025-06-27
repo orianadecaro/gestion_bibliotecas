@@ -1,15 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSocio } from "../../../context/AuthContext";
 
 const SocioProfile = () => {
-  const user = {
-    nombre: "Juan Pérez",
-    email: "juan.perez@example.com",
-    telefono: "1123456789",
-    dni: "30123456",
-    estado: "Activo",
-    avatar: "/user5.jpg",
-  };
+  const { socio } = useSocio(); // Obtén el id desde la URL
 
   return (
     <div
@@ -24,7 +18,7 @@ const SocioProfile = () => {
           <div className="w-32 h-32 transform hover:scale-105 transition duration-300 perspective-1000">
             <img
               src="/avatar.png"
-              alt="Avatar del socio"
+              alt="Avatar del socioprofile"
               className="w-full h-full rounded-full object-cover shadow-2xl border-4 border-blue-500 transform rotate-x-6 rotate-y-3"
             />
           </div>
@@ -32,25 +26,25 @@ const SocioProfile = () => {
           {/* Info */}
           <div className="w-full text-center">
             <h2 className="text-2xl font-semibold text-blue-800 mb-2">
-              {user.nombre}
+              {socio?.nombre}
             </h2>
             <p className="text-gray-700">
-              <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> {socio?.email}
             </p>
             <p className="text-gray-700">
-              <strong>Teléfono:</strong> {user.telefono}
+              <strong>Teléfono:</strong> {socio?.telefono}
             </p>
             <p className="text-gray-700">
-              <strong>DNI:</strong> {user.dni}
+              <strong>DNI:</strong> {socio?.dni}
             </p>
             <p className="text-gray-700">
               <strong>Estado:</strong>{" "}
               <span
                 className={`font-semibold ${
-                  user.estado === "Activo" ? "text-green-600" : "text-red-500"
+                  socio?.estado ? "text-green-600" : "text-red-500"
                 }`}
               >
-                {user.estado}
+                {socio?.estado ? "Activo" : "Inactivo"}
               </span>
             </p>
           </div>
@@ -58,7 +52,7 @@ const SocioProfile = () => {
           {/* Botón de volver */}
           <div className="pt-4">
             <Link
-              to="/socio/dashboard"
+              to="/socioprofile/dashboard"
               className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
             >
               Ir a Libros

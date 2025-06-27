@@ -9,6 +9,15 @@ export const getAllPrestamos = async () => {
   }
 };
 
+export const getPrestamosBySocioId = async (id) => {
+  try {
+    const response = await axiosInstance.get(`/socios/historial/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el prestamos:", error);
+  }
+};
+
 export const getPrestamosById = async (id) => {
   try {
     const response = await axiosInstance.get(`/prestamos/${id}`);

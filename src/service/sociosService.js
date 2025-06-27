@@ -27,6 +27,17 @@ export const createSocios = async (data) => {
   }
 };
 
+
+export const sociosProfileById = async (data) => {
+  try {
+    const response = await axiosInstance.get(`/socios/profile/${data.id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error al obtener el socios", error);
+  }
+};
+
+
 export const updateSocios = async (data) => {
   try {
     const response = await axiosInstance.put(`/socios/${data.id}`, data);

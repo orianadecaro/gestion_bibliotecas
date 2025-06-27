@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useSocio } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaSpinner } from "react-icons/fa";
 import Footer from "../../components/footer";
+import { socioLoginRequest } from "../../auth/socioLogin";
 
 const SocioLogin = () => {
   const navigation = useNavigate();
-  const { login } = useAuth();
-  const [username, setUsername] = useState("");
+  const { loginSocio } = useSocio();
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -15,14 +16,16 @@ const SocioLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username.trim() || !password.trim()) {
+    if (!email.trim() || !password.trim()) {
       setErrorMessage("Por favor complete todos los campos");
       setTimeout(() => setErrorMessage(""), 2000);
       return;
     }
     setLoading(true);
     try {
-      await login(username, password);
+      const result = await socioLoginRequest({ email, password });
+      loginSocio(result);
+      navigation("/socio/dashboard");
     } catch (error) {
       setErrorMessage(error.message);
       setTimeout(() => setErrorMessage(""), 2000);
@@ -57,15 +60,15 @@ const SocioLogin = () => {
             </h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
-                <label htmlFor="username" className="block text-gray-500">
+                <label htmlFor="email" className="block text-gray-500">
                   Usuario
                 </label>
                 <input
                   type="text"
-                  id="username"
+                  id="email"
                   required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="w-full p-3 mt-1 border border-gray-500 rounded-lg focus:outline-none focus:border-blue-600"
                   placeholder="Ingrese su email"
                 />
@@ -119,7 +122,6 @@ const SocioLogin = () => {
                 >
                   {loading ? (
                     <div className="flex justify-center items-center gap-2">
-                      <span className="animate-spin h-5 w-5 border-2 border-gray-300 border-t-transparent rounded-full"></span>
                       <FaSpinner className="animate-spin text-center h-5 w-5" />{" "}
                       Cargando...
                     </div>

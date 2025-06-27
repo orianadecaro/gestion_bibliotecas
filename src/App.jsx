@@ -25,6 +25,7 @@ import LayoutSocio from "./components/layout/layoutSocio";
 import SocioProfile from "./page/socio/profile";
 import UserProfile from "./page/admin/userprofile";
 import SocioHistory from "./page/socio/history";
+import PrivateRouteSocio from "./routes/PrivateSocioRoute";
 
 function App() {
   return (
@@ -38,6 +39,15 @@ function App() {
             </LayoutMain>
           }
         />
+        <Route
+          path="/about"
+          element={
+            <LayoutMain>
+              <AboutUs />
+            </LayoutMain>
+          }
+        />
+
         <Route path="/admin" element={<LoginBibliotecario />} />
         <Route
           path="/admin/dashboard"
@@ -110,38 +120,36 @@ function App() {
           }
         />
 
-        <Route
-          path="/about"
-          element={
-            <LayoutMain>
-              <AboutUs />
-            </LayoutMain>
-          }
-        />
         <Route path="/socio" element={<SocioLogin />} />
         <Route path="/socio/register" element={<SocioRegister />} />
         <Route
           path="/socio/dashboard"
           element={
-            <LayoutSocio>
-              <SocioDashboard />{" "}
-            </LayoutSocio>
+            <PrivateRouteSocio>
+              <LayoutSocio>
+                <SocioDashboard />{" "}
+              </LayoutSocio>
+            </PrivateRouteSocio>
           }
         />
         <Route
           path="/socio/history"
           element={
-            <LayoutSocio>
-              <SocioHistory />{" "}
-            </LayoutSocio>
+            <PrivateRouteSocio>
+              <LayoutSocio>
+                <SocioHistory />{" "}
+              </LayoutSocio>
+            </PrivateRouteSocio>
           }
         />
         <Route
           path="/socio/profile"
           element={
-            <LayoutSocio>
-              <SocioProfile />{" "}
-            </LayoutSocio>
+            <PrivateRouteSocio>
+              <LayoutSocio>
+                <SocioProfile />{" "}
+              </LayoutSocio>
+            </PrivateRouteSocio>
           }
         />
         <Route path="/404" element={<NotFound />} />

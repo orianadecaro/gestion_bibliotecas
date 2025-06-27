@@ -256,10 +256,10 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                   Reservado
                 </option>
                 <option value="En prestamo" className="bg-red-500">
-                  En préstamo
-                  <option value="Devuelto" className="bg-green-500">
-                    Devuelto
-                  </option>
+                  En préstamo{" "}
+                </option>
+                <option value="Devuelto" className="bg-green-500">
+                  Devuelto
                 </option>
               </select>
             </div>
