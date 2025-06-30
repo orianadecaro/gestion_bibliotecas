@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSocio } from "../../../context/AuthContext";
 
 const SocioProfile = () => {
-  const { socio } = useSocio(); // Obtén el id desde la URL
+  const { socio } = useSocio();
 
   return (
     <div

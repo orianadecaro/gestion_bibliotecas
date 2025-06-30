@@ -1,14 +1,23 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { getAllPerfiles } from "../../../service/perfilesService";
 
 const UserProfile = () => {
-  const user = {
-    nombre: "Juan Pérez",
-    email: "juan.perez@example.com",
-    telefono: "1123456789",
-    dni: "30123456",
-    estado: "Activo",
-    avatar: "/user5.jpg",
+  const { user } = useAuth();
+  const [perfiles, setPerfiles] = useState([]);
+
+  const fetchPerfiles = async () => {
+    const data = await getAllPerfiles();
+    if (data) setPerfiles(data);
+  };
+
+  useEffect(() => {
+    fetchPerfiles();
+  }, []);
+
+  const getPerfilNombre = (id) => {
+    const perfil = perfiles.find((p) => p.id === id);
+    return perfil ? perfil.nombre : id;
   };
 
   return (
@@ -27,28 +36,28 @@ const UserProfile = () => {
           {/* Info */}
           <div className="w-full text-center">
             <h2 className="text-2xl font-semibold text-blue-800 mb-2">
-              {user.nombre}
+              {user?.user?.nombre}
             </h2>
             <p className="text-gray-700">
-              <strong>DNI:</strong> {user.dni}
+              <strong>DNI:</strong> {user?.user?.dni}
             </p>{" "}
             <p className="text-gray-700">
-              <strong>Teléfono:</strong> {user.telefono}
+              <strong>Teléfono:</strong> {user?.user?.telefono}
             </p>
             <p className="text-gray-700">
-              <strong>Email:</strong> {user.email}
+              <strong>Email:</strong> {user?.user?.email}
             </p>
             <p className="text-gray-700">
-              <strong>Perfil:</strong> {user.perfil_nombre}
+              <strong>Perfil:</strong> {getPerfilNombre(user?.user?.perfil_id)}
             </p>
             <p className="text-gray-700">
               <strong>Estado:</strong>{" "}
               <span
                 className={`font-semibold ${
-                  user.estado === "Activo" ? "text-green-600" : "text-red-500"
+                  user?.user?.estado ? "text-green-600" : "text-red-500"
                 }`}
               >
-                {user.estado}
+                {user?.user?.estado ? "Activo" : "Inactivo"}
               </span>
             </p>
           </div>
