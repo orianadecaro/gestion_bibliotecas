@@ -125,7 +125,7 @@ const AboutUs = () => {
                       <li>Acompañamiento en monografías y trabajos finales.</li>
                     </ul>
                     <img
-                      src="/biblioteca3.jpg"
+                      src="/secundaria.jpeg"
                       alt="Nivel Secundario"
                       className="w-full rounded-md shadow mt-2"
                     />
