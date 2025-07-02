@@ -12,7 +12,7 @@ const Navbar = () => {
               className="object-contain  w-8 "
               alt="biblioteca Logo"
             />
-            <p className="hidden md:flex"> Jorge Luis Borges</p>
+            <p className="hidden md:flex"> Jorge Luis Borges - EATA</p>
           </Link>
         </div>
 

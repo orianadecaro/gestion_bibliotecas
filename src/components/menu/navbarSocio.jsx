@@ -28,7 +28,7 @@ const NavbarSocio = () => {
             className="object-contain w-8"
             alt="biblioteca Logo"
           />
-          <p className="font-semibold">Jorge Luis Borges</p>
+          <p className="font-semibold">Jorge Luis Borges - EATA</p>
         </Link>
 
         {/* Menu Toggle for Mobile */}
