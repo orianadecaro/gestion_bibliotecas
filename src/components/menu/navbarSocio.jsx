@@ -10,7 +10,7 @@ import { useSocio } from "../../context/AuthContext";
 const NavbarSocio = () => {
   const navigation = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
-  const { logoutSocio, socio } = useSocio();
+  const { logoutSocio } = useSocio();
 
   const handleLogout = () => {
     logoutSocio();
@@ -40,7 +40,6 @@ const NavbarSocio = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex gap-5">
-          <p>Hola {socio?.nombre}</p>
           <a
             href="/socio/dashboard"
             className="text-gray-400 flex items-center text-xl gap-2 cursor-pointer hover:text-gray-800"
@@ -74,7 +73,6 @@ const NavbarSocio = () => {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden flex flex-col bg-white shadow px-4 pb-4">
-          <p>Hola {socio?.nombre}</p>
           <a
             href="/socio/dashboard"
             className="text-gray-600 py-2 flex gap-2 items-center  hover:text-gray-900"

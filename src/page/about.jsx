@@ -10,7 +10,7 @@ const AboutUs = () => {
     >
       <div className="p-6 md:p-12 mt-5 max-w-6xl mx-auto text-gray-800">
         {/* Título principal */}
-        <h1 className="text-3xl md:text-4xl font-bold text-center mb-6">
+        <h1 className="text-3xl md:text-4xl text-white font-bold text-center mb-6">
           Sobre Nosotros
         </h1>
 
@@ -59,7 +59,9 @@ const AboutUs = () => {
 
         {/* Proyectos institucionales */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-6">Proyectos por Nivel</h2>
+          <h2 className="text-2xl font-bold text-green-100 mb-6">
+            Proyectos por Nivel
+          </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto border border-gray-300 text-left">
               <thead className="bg-gray-100">

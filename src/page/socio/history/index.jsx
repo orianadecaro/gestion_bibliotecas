@@ -22,6 +22,7 @@ const SocioHistory = () => {
           getPrestamosBySocioId(socio.id),
           getAllLibros(),
         ]);
+        console.log(prestamosData);
         setPrestamos(prestamosData);
         setLibros(librosData);
       } catch (error) {
@@ -54,16 +55,21 @@ const SocioHistory = () => {
             </thead>
 
             <tbody>
-              {!error ? (
+              {error ? (
+                <tr>
+                  <td colSpan="6" className="text-center py-4 text-red-500">
+                    {error}
+                  </td>
+                </tr>
+              ) : prestamos.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="text-center py-4 text-gray-500">
                     No hay préstamos registrados.
                   </td>
                 </tr>
               ) : (
-                prestamos?.map((prestamo) => {
+                prestamos.map((prestamo) => {
                   const libro = libros.find((l) => l.id === prestamo.libro_id);
-
                   return (
                     <tr key={prestamo.id} className="text-[8px] md:text-[12px]">
                       <td className="border p-1 md:p-2">
@@ -72,9 +78,7 @@ const SocioHistory = () => {
                       <td className="border p-1 md:p-2">
                         {libro?.titulo || "-"}
                       </td>
-                      <td className="border p-1 md:p-2">
-                        {prestamo?.socio_id}
-                      </td>
+                      <td className="border p-1 md:p-2">{socio?.nombre}</td>
                       <td className="border text-center p-1 md:p-2">
                         {formatDate(prestamo.fechaprestamo)}
                       </td>
