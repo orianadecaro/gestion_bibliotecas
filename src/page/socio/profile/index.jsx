@@ -52,7 +52,7 @@ const SocioProfile = () => {
           {/* Botón de volver */}
           <div className="pt-4">
             <Link
-              to="/socioprofile/dashboard"
+              to="/socio/dashboard"
               className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
             >
               Ir a Libros

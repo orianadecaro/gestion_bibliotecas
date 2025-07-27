@@ -14,7 +14,14 @@ export const getPrestamosBySocioId = async (id) => {
     const response = await axiosInstance.get(`/socios/historial/${id}`);
     return response.data;
   } catch (error) {
-    console.error("Error al obtener el prestamos:", error);
+    if (error.response?.status === 404) {
+      return [];
+    }
+
+    // Otros errores, más graves
+    console.error("Error al obtener el préstamo:", error);
+    throw new Error("Error al obtener préstamos");
+
   }
 };
 
@@ -28,7 +35,9 @@ export const getPrestamosById = async (id) => {
 };
 
 export const createPrestamos = async (data) => {
+  console.log("Payload que se envía al backend:", data);
   try {
+
     const response = await axiosInstance.post("/prestamos", data);
     return response.data;
   } catch (error) {

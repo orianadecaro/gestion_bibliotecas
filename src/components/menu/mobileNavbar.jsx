@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { sidebarData } from "../../constants/sidebarData";
 import { Link, useNavigate } from "react-router-dom";
-import { FaChartBar, FaRegUserCircle } from "react-icons/fa";
+import { FaChartBar, FaRegUserCircle, FaStar } from "react-icons/fa";
 import { BsFillJournalBookmarkFill } from "react-icons/bs";
 import { FiUsers } from "react-icons/fi";
 import { IoMdLogOut } from "react-icons/io";
@@ -21,6 +21,7 @@ const MobileNavbar = () => {
     GiBookshelf: <LuBookText />,
     BsFillJournalBookmarkFill: <BsFillJournalBookmarkFill />,
     ImProfile: <ImProfile />,
+    FaStar: <FaStar />,
   };
 
   const handleLogout = (navigate) => {

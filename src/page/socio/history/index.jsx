@@ -13,13 +13,13 @@ const SocioHistory = () => {
 
   useEffect(() => {
     if (!socio?.id) return;
-    console.log(socio.id);
+    console.log(socio?.id);
 
     const fetchData = async () => {
       try {
         setError(null);
         const [prestamosData, librosData] = await Promise.all([
-          getPrestamosBySocioId(socio.id),
+          getPrestamosBySocioId(socio?.id),
           getAllLibros(),
         ]);
         console.log(prestamosData);
@@ -61,17 +61,22 @@ const SocioHistory = () => {
                     {error}
                   </td>
                 </tr>
-              ) : prestamos.length === 0 ? (
+              ) : prestamos?.length === 0 ? (
                 <tr>
                   <td colSpan="6" className="text-center py-4 text-gray-500">
                     No hay préstamos registrados.
                   </td>
                 </tr>
               ) : (
-                prestamos.map((prestamo) => {
-                  const libro = libros.find((l) => l.id === prestamo.libro_id);
+                prestamos?.map((prestamo) => {
+                  const libro = libros?.find(
+                    (l) => l?.id === prestamo?.libro_id
+                  );
                   return (
-                    <tr key={prestamo.id} className="text-[8px] md:text-[12px]">
+                    <tr
+                      key={prestamo?.id}
+                      className="text-[8px] md:text-[12px]"
+                    >
                       <td className="border p-1 md:p-2">
                         {libro?.codigo || "-"}
                       </td>
@@ -80,22 +85,22 @@ const SocioHistory = () => {
                       </td>
                       <td className="border p-1 md:p-2">{socio?.nombre}</td>
                       <td className="border text-center p-1 md:p-2">
-                        {formatDate(prestamo.fechaprestamo)}
+                        {formatDate(prestamo?.fechaprestamo)}
                       </td>
                       <td className="border text-center p-1 md:p-2">
-                        {formatDate(prestamo.fechadevolucion)}
+                        {formatDate(prestamo?.fechadevolucion)}
                       </td>
                       <td className="border text-center p-1 md:p-2">
                         <span
                           className={`px-2 py-1 rounded-full font-semibold text-white text-xs md:text-sm ${
-                            prestamo.estado === "Devuelto"
+                            prestamo?.estado === "Devuelto"
                               ? "bg-green-600"
                               : prestamo.estado === "Reservado"
                               ? "bg-orange-500"
                               : "bg-red-600"
                           }`}
                         >
-                          {prestamo.estado}
+                          {prestamo?.estado}
                         </span>
                       </td>
                     </tr>

@@ -64,7 +64,7 @@ const BookList = () => {
     <>
       <div className="h-full w-full px-3 py-2">
         <HeaderTable
-          title="Listado de compendio bibliográfico"
+          title="Listado de recursos multimedia"
           setFilterTextValue={(value) => setFilterText(value)}
           onClick={() => ""}
         >
@@ -103,7 +103,7 @@ const BookList = () => {
                   <th className="border p-1 md:p-2">Código</th>
                   <th className="border p-1 md:p-2">Título</th>
                   <th className="border p-1 md:p-2">Autor</th>
-                  <th className="border p-1 md:p-2">Materia</th>
+                  <th className="border p-1 md:p-2">Categoría</th>
                   <th className="border p-1 md:p-2">Editorial</th>
                   <th className="border p-1 md:p-2">Cantidad</th>
                   <th className="border p-1 md:p-2">Estado</th>

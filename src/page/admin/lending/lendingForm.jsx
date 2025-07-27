@@ -15,7 +15,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     socio_id: "",
     fechaprestamo: "",
     fechadevolucion: "",
-    estado: "",
+    estado: "Reservado",
   });
   const isEditing = Boolean(selectItem?.id);
   const [libroSearch, setLibroSearch] = useState("");
@@ -48,22 +48,28 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
   useEffect(() => {
     setLoading(false);
     if (selectItem) {
-      setFormData(selectItem || {});
+      setFormData({
+        libro_id: selectItem?.libro_id || "",
+        socio_id: selectItem?.socio_id || "",
+        fechaprestamo: selectItem?.fechaprestamo || "",
+        fechadevolucion: selectItem?.fechadevolucion || "",
+        estado: selectItem?.estado || "",
+      });
 
       const libroSeleccionado = libros.find(
-        (l) => l.id === selectItem.libro_id
+        (l) => l?.id === selectItem?.libro_id
       );
       const socioSeleccionado = socios.find(
-        (s) => s.id === selectItem.socio_id
+        (s) => s?.id === selectItem?.socio_id
       );
 
       setLibroSearch(
         libroSeleccionado
-          ? `${libroSeleccionado.codigo} - ${libroSeleccionado.titulo} - ${libroSeleccionado.autor}`
+          ? `${libroSeleccionado?.codigo} - ${libroSeleccionado?.titulo} - ${libroSeleccionado?.autor}`
           : ""
       );
 
-      setSocioSearch(socioSeleccionado ? socioSeleccionado.nombre : "");
+      setSocioSearch(socioSeleccionado ? socioSeleccionado?.nombre : "");
     } else {
       setFormData({
         libro_id: "",
@@ -77,9 +83,28 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     }
   }, [selectItem, libros, socios]);
 
+  const sumarDias = (fechaStr, dias) => {
+    if (!fechaStr) return "";
+    const fecha = new Date(fechaStr);
+    fecha.setDate(fecha.getDate() + dias);
+    const yyyy = fecha.getFullYear();
+    const mm = String(fecha.getMonth() + 1).padStart(2, "0");
+    const dd = String(fecha.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    if (name === "fechaprestamo") {
+      setFormData((prev) => ({
+        ...prev,
+        fechaprestamo: value,
+        fechadevolucion: sumarDias(value, 3),
+      }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -88,11 +113,11 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
     try {
       const payload = {
         ...formData,
-        fechadevolucion: formData.fechadevolucion || null,
+        //fechadevolucion: formData?.fechadevolucion || null,
       };
 
       if (selectItem?.id) {
-        await updatePrestamos({ ...payload, id: selectItem.id });
+        await updatePrestamos({ ...payload, id: selectItem?.id });
       } else {
         await createPrestamos(payload);
       }
@@ -190,7 +215,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 disabled={isEditing}
               />
 
-              {socioSearch && !formData.socio_id && (
+              {socioSearch && !formData?.socio_id && (
                 <ul className="absolute z-10 w-full max-h-40 overflow-y-auto bg-white border border-gray-300 rounded shadow text-sm">
                   {filteredSocios.length > 0 ? (
                     filteredSocios.map((socio) => (
@@ -222,7 +247,7 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
               <input
                 type="date"
                 name="fechaprestamo"
-                value={formData.fechaprestamo}
+                value={formData?.fechaprestamo}
                 onChange={handleInputChange}
                 className={`w-full border p-2 mb-2 rounded text-sm ${
                   isEditing
@@ -234,12 +259,13 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Fecha Devolucion</label>
+              <label className="text-sm font-medium">Fecha Devolución</label>
               <input
                 type="date"
                 name="fechadevolucion"
-                value={formData.fechadevolucion}
+                value={formData?.fechadevolucion}
                 onChange={handleInputChange}
+                required
                 className="w-full border p-2 rounded text-sm"
               />
             </div>
@@ -247,11 +273,12 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
               <label className="text-sm font-medium">Estado</label>
               <select
                 name="estado"
-                value={formData.estado}
+                value={formData?.estado}
                 onChange={handleInputChange}
                 className="w-full border p-2 rounded text-sm"
                 required
               >
+                <option value="">Seleccionar estado</option>
                 <option value="Reservado" className="bg-orange-500">
                   Reservado
                 </option>
@@ -276,7 +303,11 @@ export const LendingForm = ({ isOpen, onClose, selectItem, onUpdate }) => {
                 type="submit"
                 className="bg-blue-600 text-white cursor-pointer  text-sm px-4 py-2 rounded"
               >
-                Guardar
+                {loading ? (
+                  <FaSpinner className="animate-spin h-4 w-4" />
+                ) : (
+                  "Guardar"
+                )}
               </button>
             </div>
           </form>

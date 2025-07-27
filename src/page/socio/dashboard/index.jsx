@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { searchLibros } from "../../../utils/bookUtils";
 import ReservButton from "../../../components/table/reservButton";
 import { getAllLibros } from "../../../service/librosService";
-import NavbarSocio from "../../../components/menu/navbarSocio";
 import { FiSearch } from "react-icons/fi";
 import ModalContainer from "../../../components/modalContainer";
-import Footer from "../../../components/footer";
 
 const SocioDashboard = () => {
   const [showModal, setShowModal] = useState(false);
@@ -100,24 +98,24 @@ const SocioDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredLibros.map((libro, index) => (
+                {filteredLibros?.map((libro, index) => (
                   <tr key={index} className="text-center">
-                    <td className="border p-2">{libro.titulo}</td>
-                    <td className="border p-2">{libro.autor}</td>
-                    <td className="border p-2">{libro.editorial}</td>
+                    <td className="border p-2">{libro?.titulo}</td>
+                    <td className="border p-2">{libro?.autor}</td>
+                    <td className="border p-2">{libro?.editorial}</td>
                     <td className="border p-2">
                       {" "}
                       <span
                         className={`px-2 py-0.5 rounded-full text-white text-xs font-semibold
                       ${
-                        libro.estado === "Disponible"
+                        libro?.estado === "Disponible"
                           ? "bg-green-500"
-                          : libro.estado === "Prestamo"
+                          : libro?.estado === "Prestamo"
                           ? "bg-red-500"
                           : "bg-orange-500"
                       }`}
                       >
-                        {libro.estado}
+                        {libro?.estado}
                       </span>
                     </td>
                     <td className="border p-2 ">
@@ -133,33 +131,33 @@ const SocioDashboard = () => {
           </div>
 
           <div className="md:hidden grid gap-4 max-h-[400px] overflow-y-auto">
-            {filteredLibros.map((libro, index) => (
+            {filteredLibros?.map((libro, index) => (
               <div
                 key={index}
                 className="border p-2 rounded shadow text-[12px] flex flex-col gap-1 bg-white"
               >
                 <p>
-                  <strong>Título:</strong> {libro.titulo}
+                  <strong>Título:</strong> {libro?.titulo}
                 </p>
                 <p>
-                  <strong>Autor:</strong> {libro.autor}
+                  <strong>Autor:</strong> {libro?.autor}
                 </p>
                 <p>
-                  <strong>Editorial:</strong> {libro.editorial}
+                  <strong>Editorial:</strong> {libro?.editorial}
                 </p>
                 <p>
                   <strong>Estado:</strong>{" "}
                   <span
                     className={`px-2 py-0.5 rounded-full text-white text-xs font-semibold
                   ${
-                    libro.estado === "Disponible"
+                    libro?.estado === "Disponible"
                       ? "bg-green-500"
-                      : libro.estado === "Prestamo"
+                      : libro?.estado === "Prestamo"
                       ? "bg-red-500"
                       : "bg-orange-500"
                   }`}
                   >
-                    {libro.estado}
+                    {libro?.estado}
                   </span>
                 </p>
                 <div className="mt-2">
