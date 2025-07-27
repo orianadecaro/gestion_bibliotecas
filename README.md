@@ -97,6 +97,16 @@ src/
 │ │ └── user/
 │ │ ├── index.jsx
 │ │ └── UserForm.jsx
+| ├── socio/
+│ │ │ ├── dashboard/
+│ │ │ │ └── index.jsx
+│ │ │ ├── history/
+│ │ │ │ └── index.jsx
+│ │ │ ├── profile/
+│ │ │ │ └── index.jsx
+│ │ │ └── register /
+│ │ │ | └── index.jsx
+│ │ │ └── index.jsx
 │ ├── index.jsx
 │ └── 404.jsx
 ├── routes/
