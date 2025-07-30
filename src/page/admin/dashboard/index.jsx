@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import HeaderTable from "../../../components/table/headerTable";
 import { Chart, PieController, ArcElement, Tooltip, Legend } from "chart.js";
 import { getAllPrestamos } from "../../../service/prestamosService";
@@ -11,6 +11,9 @@ const Dashboard = () => {
     Devuelto: 0,
     Reservado: 0,
   });
+
+  const chartRef = useRef(null);
+  const chartInstanceRef = useRef(null); // para mantener la instancia del gráfico
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,49 +38,6 @@ const Dashboard = () => {
         });
 
         setCounts(countsTemp);
-
-        const ctx = document.getElementById("myPieChart");
-
-        if (ctx.chartInstance) {
-          ctx.chartInstance.destroy();
-        }
-
-        const pieChart = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: [
-              `En préstamo (${countsTemp["En préstamo"]})`,
-              `Devuelto (${countsTemp["Devuelto"]})`,
-              `Reservado (${countsTemp["Reservado"]})`,
-            ],
-            datasets: [
-              {
-                label: "Libros por estado",
-                data: [
-                  countsTemp["En préstamo"],
-                  countsTemp["Devuelto"],
-                  countsTemp["Reservado"],
-                ],
-                backgroundColor: [
-                  "rgb(255, 99, 132)",
-                  "rgb(54, 162, 235)",
-                  "rgb(255, 205, 86)",
-                ],
-                hoverOffset: 4,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            plugins: {
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        });
-
-        ctx.chartInstance = pieChart;
       } catch (error) {
         console.error("Error cargando prestamos:", error);
       }
@@ -85,6 +45,57 @@ const Dashboard = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (
+      counts["En préstamo"] === 0 &&
+      counts["Devuelto"] === 0 &&
+      counts["Reservado"] === 0
+    ) return;
+
+    const ctx = chartRef.current;
+
+    if (!ctx) return;
+
+    if (chartInstanceRef.current) {
+      chartInstanceRef.current.destroy();
+    }
+
+    chartInstanceRef.current = new Chart(ctx, {
+      type: "pie",
+      data: {
+        labels: [
+          `En préstamo (${counts["En préstamo"]})`,
+          `Devuelto (${counts["Devuelto"]})`,
+          `Reservado (${counts["Reservado"]})`,
+        ],
+        datasets: [
+          {
+            label: "Libros por estado",
+            data: [
+              counts["En préstamo"],
+              counts["Devuelto"],
+              counts["Reservado"],
+            ],
+            backgroundColor: [
+              "rgb(255, 99, 132)",
+              "rgb(54, 162, 235)",
+              "rgb(255, 205, 86)",
+            ],
+            hoverOffset: 4,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: "bottom",
+          },
+        },
+      },
+    });
+  }, [counts]);
 
   return (
     <div className="h-full w-full px-3 py-2">
@@ -97,8 +108,8 @@ const Dashboard = () => {
             No hay datos disponibles para mostrar.
           </div>
         ) : (
-          <canvas id="myPieChart" width="400" height="400"></canvas>
-        )}{" "}
+          <canvas ref={chartRef} width="400" height="400"></canvas>
+        )}
       </div>
     </div>
   );
